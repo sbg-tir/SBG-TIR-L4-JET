@@ -1,4 +1,4 @@
-# SBG-TIR OTTER Level 3 & 4 Evapotranspiration Product Generator
+# SBG-TIR OTTER L3T ET, L4T ESI, and L4T WUE Data Products
 
 Gregory H. Halverson (they/them)<br>
 [gregory.h.halverson@jpl.nasa.gov](mailto:gregory.h.halverson@jpl.nasa.gov)<br>
