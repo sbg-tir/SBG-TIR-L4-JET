@@ -37,7 +37,7 @@ first-pass estimate is then bias-corrected to the coarse image from
 GEOS-5 FP. Areas of cloud are filled in with
 bi-cubically resampled GEOS-5 FP. These downscaled meteorology estimates include:
 
-Meteorology Data Layers:
+L3T ET Meteorology Data Layers:
 - Near-Surface Air Temperature in Celcius (Ta)
 - Near-Surface Relative Humidity [0-1] (RH)
 
@@ -46,7 +46,7 @@ Meteorology Data Layers:
 This same down-scaling procedure is applied to soil moisture (SM) from
 the GEOS-5 FP tavg1_2d_lnd_Nx product. This is included as a single data layer:
 
-Soil Moisture Data Layers:
+L3T ET Soil Moisture Data Layers:
 - Soil Moisture [0-1] (SM)
 
 ## Surface Energy Balance
@@ -71,8 +71,7 @@ The MOD16 algorithm was designed as the ET product for the Moderate Resolution I
 
 The ET estimate from BESS is recorded in the L3T JET product as BESSinst. The median of PTJPLSMinst, STICinst, MOD16inst, and BESSinst is upscaled to a daily ET estimate in millimeters per day and recorded in the L3T JET product as ETdaily. The standard deviation between these multiple estimates of ET is considered the uncertainty for the SBG evapotranspiration product, as ETinstUncertainty. Note that the ETdaily product represents the integrated ET between sunrise and sunset.
 
-The layers for the ET estimate are recorded in a data layer and uncertainty layer:
-
+L3T ET evapotranspiration data layers:
 - Daily Evapotranspiration in mm/day (ETdaily)
 - Evapotranspiration Uncertainty in mm/day (ETdailyUncertainty)
 
@@ -80,7 +79,7 @@ The layers for the ET estimate are recorded in a data layer and uncertainty laye
 
 The PT-JPL-SM model generates estimates of both actual and potential instantaneous ET. The potential evapotranspiration (PET) estimate represents the maximum expected ET if there were no water stress to plants on the ground. The ratio of the actual ET estimate to the PET estimate forms an index representing the water stress of plants, with zero being fully stressed with no observable ET and one being non-stressed with ET reaching PET. 
 
-Evaporative Stress Index Data Layers:
+L4T ESI Data Layers:
 - Evaporative Stress Index [0-1] (ESI)
 - Potential Evapotranspiration in mm/day (ETo)
 
@@ -88,7 +87,6 @@ Evaporative Stress Index Data Layers:
 
 The BESS GPP estimate represents the amount of carbon that plants are taking in. The transpiration component of PT-JPL-SM represents the amount of water that plants are releasing. The BESS GPP is divided by the PT-JPL-SM transpiration to estimate water use efficiency (WUE), the ratio of grams of carbon that plants take in to kilograms of water that plants release. 
 
-Water Use Efficiency Data Layers:
+L4T WUE Data Layers:
 - Water Use Efficiency g C kg^-1^ H~2~O (WUE)
 - Gross Primary Production $\mu$mol m^-2^ s^-1^ (GPP)
-
