@@ -85,5 +85,6 @@ L4T ESI Data Layers:
 The BESS GPP estimate represents the amount of carbon that plants are taking in. The transpiration component of PT-JPL-SM represents the amount of water that plants are releasing. The BESS GPP is divided by the PT-JPL-SM transpiration to estimate water use efficiency (WUE), the ratio of grams of carbon that plants take in to kilograms of water that plants release. 
 
 L4T WUE Data Layers:
-- Water Use Efficiency g C kg^-1^ H~2~O (WUE)
-- Gross Primary Production $\mu$mol m^-2^ s^-1^ (GPP)
+- Water Use Efficiency $$\text{g C kg}^{-1} \text{H}_2\text{O}$$ (WUE)
+- Gross Primary Production $$\mu\text{mol m}^{-2} \text{s}^{-1}$$ (GPP)
+
