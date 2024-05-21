@@ -53,10 +53,7 @@ L3T ET Soil Moisture Data Layers:
 
 The SBG surface energy balance workflow begins with an artificial neural network (ANN) implementation of the Forest Light Environmental Simulator (FLiES) radiative transfer algorithm, following the workflow established by Dr. Hideki Kobayashi and Dr. Youngryel Ryu. GEOS-5 FP provides sub-daily Cloud Optical Thickness (COT) in the tavg1_2d_rad_Nx product and Aerosol Optical Thickness (AOT) from tavg3_2d_aer_Nx. Together with STARS albedo, these variables are run through the ANN implementation of FLiES to estimate incoming shortwave radiation (Rg), bias-corrected to Rg from the GEOS-5 FP tavg1_2d_rad_Nx product.
 
-The Breathing Earth System Simulator (BESS) algorithm, contributed by
-Dr. Youngryel Ryu, iteratively calculates net radiation (Rn), ET, and
-Gross Primary Production (GPP) estimates. The BESS Rn is used as the Rn
-input to the remaining ET models. 
+The Breathing Earth System Simulator (BESS) algorithm, contributed by Dr. Youngryel Ryu, iteratively calculates net radiation (Rn), ET, and Gross Primary Production (GPP) estimates. The BESS Rn is used as the Rn input to the remaining ET models. 
 
 Net Radiation Data Layers:
 - Net Radiation in Watts Per Square Meter (Rn)
