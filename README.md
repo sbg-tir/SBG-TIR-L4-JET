@@ -27,6 +27,30 @@ The SBG evapotranspiration product combines the [surface temperature and emissiv
 
 The repositories for the evapotranspiration algorithms are located in the [JPL-Evapotranspiration-Algorithms](https://github.com/JPL-Evapotranspiration-Algorithms) organization.
 
+# Introduction
+
+This is the user guide for the SBG tiled products. SBG acquires data
+within an orbit, and this orbit path is divided into scenes roughly 935
+x 935 km in size. The SBG orbit/scene/tile products are distributed in
+Cloud-Optimized GeoTIFF (COG) format. The tiled products are listed in
+Table 1.
+
+| **Product Long Name** | **Product Short Name** |
+| --- | --- |
+| STARS NDVI/Albedo | L2T STARS |
+| Surface Energy Balance | L3T SEB |
+| Soil Moisture | L3T SM |
+| Meteorology | L3T MET |
+| Evapotranspiration Ensemble | L3T ET |
+| DisALEXI-JPL Evapotranspiration | L3T ET ALEXI |
+| Evaporative Stress Index | L4T ESI |
+| DisALEXI-JPL Evaporative Stress Index | L4T ESI ALEXI |
+| Water Use Efficiency | L4T WUE |
+
+[]Table 1. Listing of SBG tiled products long
+names and short names.
+
+
 ## Meteorology
 
 Coarse resolution near-surface air temperature (Ta) and relative
