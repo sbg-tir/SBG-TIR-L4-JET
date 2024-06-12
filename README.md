@@ -42,6 +42,7 @@ This is the user guide for the SBG tiled products. SBG acquires data within an o
 | Evaporative Stress Index | L4T ESI |
 | DisALEXI-JPL Evaporative Stress Index | L4T ESI ALEXI |
 | Water Use Efficiency | L4T WUE |
+
 *Table 1. Listing of SBG tiled products long names and short names.*
 
 
@@ -77,6 +78,7 @@ Operationally, each L2T STARS tile run loads the means and covariances of the ST
 | NDVI-UQ | Normalized Difference Vegetation Index Uncertainty | float32 | Index | NaN | N/A | -1 | 1 | N/A | 12.06 mb |
 | albedo | Albedo | float32 | Ratio | NaN | N/A | 0 | 1 | N/A | 12.06 mb |
 | albedo-UQ | Albedo Uncertainty | float32 | Ratio | NaN | N/A | 0 | 1 | N/A | 12.06 mb |
+
 *Table 2. Listing of L2T STARS data layers.*
 
 
@@ -92,6 +94,7 @@ The SBG ecosystem processing chain is designed to be independently reproducible.
 | Rn | Net Radiation | float32 | Ratio | NaN | N/A | 0 | N/A | N/A | 12.06 mb |
 | cloud | Cloud mask | float32 | Mask | 255 | N/A | 0 | 1 | N/A | 3.24 mb |
 | water | Water mask | float32 | Mask | 255 | N/A | 0 | 1 | N/A | 3.24 mb |
+
 *Table 3. Listing of the L3T AUX data layers.*
 
 ## Downscaled Meteorology
@@ -130,6 +133,7 @@ The median of total latent heat flux in watts per square meter from the PT-JPL, 
 | ETdailyUncertainty | Daily Evapotranspiration Uncertainty | float32 | mm/day | NaN | N/A | N/A | N/A | N/A | 12.06 mb |
 | cloud | Cloud mask | float32 | Mask | 255 | N/A | 0 | 1 | N/A | 3.24 mb |
 | water | Water mask | float32 | Mask | 255 | N/A | 0 | 1 | N/A | 3.24 mb |
+
 *Table 4. Listing of the L3T ET data layers.*
 
 
@@ -143,6 +147,7 @@ The PT-JPL-SM model generates estimates of both actual and potential instantaneo
 | PET | Potential Evapotranspiration | float32 | mm/day | NaN | N/A | N/A | N/A | N/A | 12.06 mb |
 | cloud | Cloud mask | float32 | Mask | 255 | N/A | 0 | 1 | N/A | 3.24 mb |
 | water | Water mask | float32 | Mask | 255 | N/A | 0 | 1 | N/A | 3.24 mb |
+
 *Table 5. Listing of the L4T ESI data layers.*
 
 
@@ -154,6 +159,7 @@ The BESS GPP estimate represents the amount of carbon that plants are taking in.
 | GPP | Gross Primary Production | float32 | $$\mu\text{mol m}^{-2} \text{s}^{-1}$$ | NaN | N/A | N/A | N/A | N/A | 12.06 mb |
 | cloud | Cloud mask | float32 | Mask | 255 | N/A | 0 | 1 | N/A | 3.24 mb |
 | water | Water mask | float32 | Mask | 255 | N/A | 0 | 1 | N/A | 3.24 mb |
+
 *Table 6. Listing of the L3T WUE data layers.*
 
 
@@ -166,6 +172,7 @@ In addition to the standard product, there will also be a low latency (< 24 hour
 | ETdaily | Evapotranspiration Daily | float32 | mm/day | NaN | N/A | N/A | N/A | N/A | 12.96 mb |
 | cloud | Cloud mask | float32 | Mask | 255 | N/A | 0 | 1 | N/A | 3.24 mb |
 | water | Water mask | float32 | Mask | 255 | N/A | 0 | 1 | N/A | 3.24 mb |
+
 *Table 7. Listing of the L3T ETLL data layers.*
 
 ## Standard Metadata
@@ -223,6 +230,7 @@ Each product contains a custom set of `ProductMetadata` attributes, as listed in
 | StartOrbitNumber | string |
 | StopOrbitNumber | string |
 | WestBoundingCoordinate | float |
+
 *Table 8. Name and type of metadata fields contained in the common StandardMetadata group in each L2T/L3T/L4T product.*
 
 | **Name** | **Type** |
@@ -233,6 +241,7 @@ Each product contains a custom set of `ProductMetadata` attributes, as listed in
 | QAPercentCloudCover | float |
 | QAPercentGoodQuality | float |
 | AuxiliaryNWP | string |
+
 *Table 9. Name and type of metadata fields contained in the common ProductMetadata group in each L2T/L3T/L4T product.*
 
 ## Acknowledgements 
