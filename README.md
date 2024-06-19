@@ -34,17 +34,12 @@ This is the user guide for the SBG tiled products. SBG acquires data within an o
 | **Product Long Name** | **Product Short Name** |
 | --- | --- |
 | STARS NDVI/Albedo | L2T STARS |
-| Surface Energy Balance | L3T SEB |
-| Soil Moisture | L3T SM |
-| Meteorology | L3T MET |
-| Evapotranspiration Ensemble | L3T ET |
-| DisALEXI-JPL Evapotranspiration | L3T ET ALEXI |
+| Auxiliary Inputs | L3T AUX |
+| Evapotranspiration | L3T ET |
 | Evaporative Stress Index | L4T ESI |
-| DisALEXI-JPL Evaporative Stress Index | L4T ESI ALEXI |
 | Water Use Efficiency | L4T WUE |
 
-*Table 1. Listing of SBG tiled products long names and short names.*
-
+*Table 1. Listing of SBG ecosystem products long names and short names.*
 
 ### Cloud-Optimized GeoTIFF Orbit/Scene/Tile Products 
 
