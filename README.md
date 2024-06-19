@@ -59,23 +59,6 @@ Two high-level quality flags are provided in all gridded and tiled products as t
 The STARS data product is produced with a separate Product Generating Executable (PGE) located here:
 [https://github.com/sbg-tir/SBG-TIR-L2-STARS](https://github.com/sbg-tir/SBG-TIR-L2-STARS)
 
-NDVI and albedo are estimated at 60 m SBG standard resolution for each daytime SBG overpass by fusing temporally sparse but fine spatial resolution images from the Harmonized Landsat Sentinel (HLS) 2.0 product with daily, moderate spatial resolution images from the Suomi NPP Visible Infrared Imaging Radiometer Suite (VIIRS) VNP09GA product. The data fusion is performed using a variant of the Spatial Timeseries for Automated high-Resolution multi-Sensor data fusion (STARS) algorithm developed by Dr. Margaret Johnson and Gregory Halverson at the Jet Propulsion Laboratory. STARS is a Bayesian timeseries methodology that provides streaming data fusion and uncertainty quantification through efficient Kalman filtering. 
-
-Operationally, each L2T STARS tile run loads the means and covariances of the STARS model saved from the most recent tile run, then iteratively advances the means and covariances forward each day updating with fine imagery from HLS and/or moderate resolution imagery from VIIRS up to the day of the target SBG overpass. A pixelwise, lagged 16-day implementation of the VNP43 algorithm (Schaaf, 2017) is used for a near-real-time BRDF correction on the VNP09GA products to produce VIIRS NDVI and albedo. 
-
-Operationally, each L2T STARS tile run loads the means and covariances of the STARS model saved from the most recent tile run, then iteratively advances the means and covariances forward each day updating with fine imagery from HLS and/or moderate resolution imagery from VIIRS up to the day of the target SBG overpass. A pixelwise, lagged 16-day implementation of the VNP43 algorithm (Schaaf, 2017) is used for a near-real-time BRDF correction on the VNP09GA products to produce VIIRS NDVI and albedo. The layers of the L2T STARS product are listed in Table 2. All layers of this product are represented by 32-bit floating point arrays. The NDVI estimates and 1σ uncertainties (-UQ) are unitless from -1 to 1. The albedo estimates and 1σ uncertainties (-UQ) are proportions from 0 to 1. 
-
-
-| **Name** | **Description** | **Type** | **Units** | **Fill Value** | **No Data Value** | **Valid Min** | **Valid Max** |**Scale Factor** | **Size** |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | -- |
-| NDVI | Normalized Difference Vegetation Index | float32 | Index | NaN | N/A | -1 | 1 | N/A | 12.06 mb |
-| NDVI-UQ | Normalized Difference Vegetation Index Uncertainty | float32 | Index | NaN | N/A | -1 | 1 | N/A | 12.06 mb |
-| albedo | Albedo | float32 | Ratio | NaN | N/A | 0 | 1 | N/A | 12.06 mb |
-| albedo-UQ | Albedo Uncertainty | float32 | Ratio | NaN | N/A | 0 | 1 | N/A | 12.06 mb |
-
-*Table 2. Listing of L2T STARS data layers.*
-
-
 ## L3T AUX Ecosystem Auxiliary Inputs Product
 
 The SBG ecosystem processing chain is designed to be independently reproducible. To facilitate open science, the auxiliary data inputs that are produced for evapotranspiration processing are distributed as a data product, such that the end user has the ability to run their own evapotranspiration model using SBG data. The data layers of the L3T AUX product are described in Table 3.
@@ -89,7 +72,7 @@ The SBG ecosystem processing chain is designed to be independently reproducible.
 | cloud | Cloud mask | float32 | Mask | 255 | N/A | 0 | 1 | N/A | 3.24 mb |
 | water | Water mask | float32 | Mask | 255 | N/A | 0 | 1 | N/A | 3.24 mb |
 
-*Table 3. Listing of the L3T AUX data layers.*
+*Table 2. Listing of the L3T AUX data layers.*
 
 ### Downscaled Meteorology
 
@@ -128,7 +111,7 @@ The median of total latent heat flux in watts per square meter from the PT-JPL, 
 | cloud | Cloud mask | float32 | Mask | 255 | N/A | 0 | 1 | N/A | 3.24 mb |
 | water | Water mask | float32 | Mask | 255 | N/A | 0 | 1 | N/A | 3.24 mb |
 
-*Table 4. Listing of the L3T ET data layers.*
+*Table 3. Listing of the L3T ET data layers.*
 
 
 ## L4T ESI and WUE Products
@@ -142,7 +125,7 @@ The PT-JPL-SM model generates estimates of both actual and potential instantaneo
 | cloud | Cloud mask | float32 | Mask | 255 | N/A | 0 | 1 | N/A | 3.24 mb |
 | water | Water mask | float32 | Mask | 255 | N/A | 0 | 1 | N/A | 3.24 mb |
 
-*Table 5. Listing of the L4T ESI data layers.*
+*Table 4. Listing of the L4T ESI data layers.*
 
 
 The BESS GPP estimate represents the amount of carbon that plants are taking in. The transpiration component of PT-JPL-SM represents the amount of water that plants are releasing. The BESS GPP is divided by the PT-JPL-SM transpiration to estimate water use efficiency (WUE), the ratio of grams of carbon that plants take in to kilograms of water that plants release. These WUE and GPP estimates are distributed in the L4T WUE product as listed in Table 6.
@@ -154,7 +137,7 @@ The BESS GPP estimate represents the amount of carbon that plants are taking in.
 | cloud | Cloud mask | float32 | Mask | 255 | N/A | 0 | 1 | N/A | 3.24 mb |
 | water | Water mask | float32 | Mask | 255 | N/A | 0 | 1 | N/A | 3.24 mb |
 
-*Table 6. Listing of the L3T WUE data layers.*
+*Table 5. Listing of the L3T WUE data layers.*
 
 
 ## L3T ETLL Low Latency Evapotranspiration Product
@@ -167,7 +150,7 @@ In addition to the standard product, there will also be a low latency (< 24 hour
 | cloud | Cloud mask | float32 | Mask | 255 | N/A | 0 | 1 | N/A | 3.24 mb |
 | water | Water mask | float32 | Mask | 255 | N/A | 0 | 1 | N/A | 3.24 mb |
 
-*Table 7. Listing of the L3T ETLL data layers.*
+*Table 6. Listing of the L3T ETLL data layers.*
 
 ## Standard Metadata
 
