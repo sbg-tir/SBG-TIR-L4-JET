@@ -34,7 +34,7 @@ This is the user guide for the SBG tiled products. SBG acquires data within an o
 | **Product Long Name** | **Product Short Name** |
 | --- | --- |
 | STARS NDVI/Albedo | L2T STARS |
-| Auxiliary Inputs | L3T AUX |
+| Ecosystem Auxiliary Inputs | L3T AUX |
 | Evapotranspiration | L3T ET |
 | Evaporative Stress Index | L4T ESI |
 | Water Use Efficiency | L4T WUE |
