@@ -16,16 +16,20 @@ Claire Villanueva-Weeks (she/her)<br>
 [claire.s.villanueva-weeks@jpl.nasa.gov](mailto:claire.s.villanueva-weeks@jpl.nasa.gov)<br>
 NASA Jet Propulsion Laboratory 329G
 
-This is the main repository for the Suface Biology and Geology Thermal Infrared (SBG-TIR) level 3 & 4 evapotranspiration data product generation software. 
 
 This software will produce estimates of:
 - evapotranspiration (ET)
 - evaporative stress index (ESI)
 - water use efficiency (WUE)
 
-The SBG evapotranspiration product combines the [surface temperature and emissivity observations from the OTTER sensor](https://github.com/sbg-tir/SBG-TIR-L2-LSTE) with the [NDVI and albedo estimated by STARS](https://github.com/sbg-tir/SBG-TIR-L2-STARS), estimates near-surface meteorology by downscaling GEOS-5 FP to these three high resolution images, and runs these variables through a set of surface energy balance models.
+This is the main repository for the Suface Biology and Geology Thermal Infrared (SBG-TIR) level 3 & 4 evapotranspiration data product generation software. 
+
+Evapotranspiration (ET) is one of the main science outputs from the Surface Biology and Geology (SBG) Mission. ET is a Level-3 (L3) product constructed from a combination of the SBG Level-2 (L2) Land Surface Temperature (LST) product and auxiliary data sources. Accurate modelling of ET requires consideration of many environmental and biological controls including: incoming radiation, the atmospheric water vapor deficit, soil water availability, vegetation physiology and phenology (Brutsaert, 1982; Monteith, 1965; Penman, 1948). Scientists develop models that ingest global satellite observations to capture these environmental and biological controls on ET. LST holds the unique ability to capture when and where plants experience stress, as observed by elevated temperatures which can idenitfy areas that have a reduced capacity to evaporate or transpire water to the atmosphere (Allen et al., 2007). The SBG evapotranspiration product combines the [surface temperature and emissivity observations from the OTTER sensor](https://github.com/sbg-tir/SBG-TIR-L2-LSTE) with the [NDVI and albedo estimated by STARS](https://github.com/sbg-tir/SBG-TIR-L2-STARS), estimates near-surface meteorology by downscaling GEOS-5 FP to these three high resolution images, and runs these variables through a set of surface energy balance models.
 
 The repositories for the evapotranspiration algorithms are located in the [JPL-Evapotranspiration-Algorithms](https://github.com/JPL-Evapotranspiration-Algorithms) organization.
+
+# Table of Contents 
+
 
 ## 1. Introduction to Data Products
 
@@ -53,10 +57,22 @@ Each `.tif` COG data layer in each L2T/L3T/L4T product additionally contains a r
 
 Two high-level quality flags are provided in all gridded and tiled products as thematic/binary masks encoded to zero and one in unsigned 8-bit integer layers. The cloud layer represents the final cloud test from L2 CLOUD. The water layer represents the surface water body in the Shuttle Radar Topography Mission (SRTM) Digital Elevation Model. For both layers, zero means absence, and one means presence. Pixels with the value 1 in the cloud layer represent detection of cloud in that pixel. Pixels with the value 1 in the water layer represent open water surface in that pixel. All tiled product data layers written in `float32` contain a standard not-a-number (`NaN`) value at each pixel that could not be retrieved. The cloud and water layers are provided to explain these missing values.
 
-## 2. L2T STARS NDVI and Albedo Product
+## 2. Auxillary Data products 
 
+| Auxiliary variable | Equation | Source  |
+| --- | --- | --- |
+
+## 2. L2T STARS NDVI and Albedo Product
 The STARS data product is produced with a separate Product Generating Executable (PGE) located here:
 [https://github.com/sbg-tir/SBG-TIR-L2-STARS](https://github.com/sbg-tir/SBG-TIR-L2-STARS)
+
+Spatial Timeseries for Automated high-Resolution multi-Sensor data fusion (STARS) methodology
+
+SBG produces coincident, gap-filled NDVI and albedo estimates at 60 m SBG standard resolution for each daytime SBG overpass through multi-instrument fusion of auxiliary VSWIR data from high spatial resolution instruments (Sentinel 2A/B, Landsat, SBG) and moderate spatial but high temporal resolution instruments (Suomi NPP Visible Infrared Imaging Radiometer Suite (VIIRS)). 
+
+A near-to-broadband albedo is estimated from the upsampled Harmonized Landsat Sentinel (HLS) 30m resolution products using the Near to broadband coefficients from Sentinel-2a/b and Landsat 8. The data fusion is performed using a variant of the STARS metholdology (Johnson et al., 2022), a statistical, state-space timeseries methodology that provides streaming data fusion and uncertainty quantification through efficient Kalman filtering. Kalman filtering uses instrument measurements and noise to update the estimates and improve their accuracy. For SBG, the STARS method is implemented for NDVI and albedo, separately, as follows. 
+
+Near-real-time STARS NDVI/albedo products corresponding to each daytime L2T_LSTE product are produced by loading the set of means and covariances produced for the day of the previous L2T_LSTE product, downloading any available measurements (VIIRS, HLS, etc.) between overpasses, and Kalman filtering forward the NDVI/albedo estimates to the current target day. The latency of this operation depends on the latency of the products in Table 1. The coincident STARS NDVI and albedo products are recorded in the L2T_STARS product.
 
 ## 3. L3T AUX Ecosystem Auxiliary Inputs Product
 
