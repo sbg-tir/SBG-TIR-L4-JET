@@ -58,8 +58,7 @@ Each `.tif` COG data layer in each L2T/L3T/L4T product additionally contains a r
 Two high-level quality flags are provided in all gridded and tiled products as thematic/binary masks encoded to zero and one in unsigned 8-bit integer layers. The cloud layer represents the final cloud test from L2 CLOUD. The water layer represents the surface water body in the Shuttle Radar Topography Mission (SRTM) Digital Elevation Model. For both layers, zero means absence, and one means presence. Pixels with the value 1 in the cloud layer represent detection of cloud in that pixel. Pixels with the value 1 in the water layer represent open water surface in that pixel. All tiled product data layers written in `float32` contain a standard not-a-number (`NaN`) value at each pixel that could not be retrieved. The cloud and water layers are provided to explain these missing values.
 
 ## 2. L2T STARS NDVI and Albedo Product
-The STARS data product is produced with a separate Product Generating Executable (PGE) located here:
-[https://github.com/sbg-tir/SBG-TIR-L2-STARS](https://github.com/sbg-tir/SBG-TIR-L2-STARS)
+The STARS data product is produced with a separate Product Generating Executable (PGE) [SBG-TIR-L2-STARS](https://github.com/sbg-tir/SBG-TIR-L2-STARS).
 
 ## 3. L3T AUX Ecosystem Auxiliary Inputs Product
 
