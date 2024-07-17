@@ -1,10 +1,12 @@
 # SBG-TIR OTTER L3T ET, L4T ESI, and L4T WUE Data Products
 
+This is the main repository for the Suface Biology and Geology Thermal Infrared (SBG-TIR) level 3 & 4 evapotranspiration data product generation software. 
+
 [Gregory H. Halverson](https://github.com/gregory-halverson-jpl) (they/them)<br>
 [gregory.h.halverson@jpl.nasa.gov](mailto:gregory.h.halverson@jpl.nasa.gov)<br>
 NASA Jet Propulsion Laboratory 329G
 
-Kerry Cawse-Nicholson (she/her)<br>
+[Kerry Cawse-Nicholson](https://github.com/kcawse) (she/her)<br>
 [kerry-anne.cawse-nicholson@jpl.nasa.gov](mailto:kerry-anne.cawse-nicholson@jpl.nasa.gov)<br>
 NASA Jet Propulsion Laboratory 329G
 
@@ -12,7 +14,7 @@ Madeleine Pascolini-Campbell (she/her)<br>
 [madeleine.a.pascolini-campbell@jpl.nasa.gov](mailto:madeleine.a.pascolini-campbell@jpl.nasa.gov)<br>
 NASA Jet Propulsion Laboratory 329F
 
-Claire Villanueva-Weeks (she/her)<br>
+[Claire Villanueva-Weeks](https://github.com/clairesvw) (she/her)<br>
 [claire.s.villanueva-weeks@jpl.nasa.gov](mailto:claire.s.villanueva-weeks@jpl.nasa.gov)<br>
 NASA Jet Propulsion Laboratory 329G
 
@@ -21,8 +23,6 @@ This software will produce estimates of:
 - evapotranspiration (ET)
 - evaporative stress index (ESI)
 - water use efficiency (WUE)
-
-This is the main repository for the Suface Biology and Geology Thermal Infrared (SBG-TIR) level 3 & 4 evapotranspiration data product generation software. 
 
 Evapotranspiration (ET) is one of the main science outputs from the Surface Biology and Geology (SBG) Mission. ET is a Level-3 (L3) product constructed from a combination of the SBG Level-2 (L2) Land Surface Temperature (LST) product and auxiliary data sources. Accurate modelling of ET requires consideration of many environmental and biological controls including: incoming radiation, the atmospheric water vapor deficit, soil water availability, vegetation physiology and phenology (Brutsaert, 1982; Monteith, 1965; Penman, 1948). Scientists develop models that ingest global satellite observations to capture these environmental and biological controls on ET. LST holds the unique ability to capture when and where plants experience stress, as observed by elevated temperatures which can idenitfy areas that have a reduced capacity to evaporate or transpire water to the atmosphere (Allen et al., 2007). The SBG evapotranspiration product combines the [surface temperature and emissivity observations from the OTTER sensor](https://github.com/sbg-tir/SBG-TIR-L2-LSTE) with the [NDVI and albedo estimated by STARS](https://github.com/sbg-tir/SBG-TIR-L2-STARS), estimates near-surface meteorology by downscaling GEOS-5 FP to these three high resolution images, and runs these variables through a set of surface energy balance models.
 
