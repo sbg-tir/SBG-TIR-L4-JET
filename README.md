@@ -12,7 +12,7 @@ Madeleine Pascolini-Campbell (she/her)<br>
 [madeleine.a.pascolini-campbell@jpl.nasa.gov](mailto:madeleine.a.pascolini-campbell@jpl.nasa.gov)<br>
 NASA Jet Propulsion Laboratory 329F
 
-Claire Villanueva-Weeks (she/her)<br>
+[Claire Villanueva-Weeks](https://github.com/clairesvw) (she/her)<br>
 [claire.s.villanueva-weeks@jpl.nasa.gov](mailto:claire.s.villanueva-weeks@jpl.nasa.gov)<br>
 NASA Jet Propulsion Laboratory 329G
 
