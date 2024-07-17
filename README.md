@@ -4,7 +4,7 @@
 [gregory.h.halverson@jpl.nasa.gov](mailto:gregory.h.halverson@jpl.nasa.gov)<br>
 NASA Jet Propulsion Laboratory 329G
 
-Kerry Cawse-Nicholson (she/her)<br>
+[Kerry Cawse-Nicholson](https://github.com/kcawse) (she/her)<br>
 [kerry-anne.cawse-nicholson@jpl.nasa.gov](mailto:kerry-anne.cawse-nicholson@jpl.nasa.gov)<br>
 NASA Jet Propulsion Laboratory 329G
 
