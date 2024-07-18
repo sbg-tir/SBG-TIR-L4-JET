@@ -28,9 +28,6 @@ Evapotranspiration (ET) is one of the main science outputs from the Surface Biol
 
 The repositories for the evapotranspiration algorithms are located in the [JPL-Evapotranspiration-Algorithms](https://github.com/JPL-Evapotranspiration-Algorithms) organization.
 
-# Table of Contents 
-
-
 ## 1. Introduction to Data Products
 
 This is the user guide for the SBG tiled products. SBG acquires data within an orbit, and this orbit path is divided into scenes roughly 935 x 935 km in size. The SBG orbit/scene/tile products are distributed in Cloud-Optimized GeoTIFF (COG) format. The tiled products are listed in Table 1.
@@ -75,15 +72,114 @@ The SBG ecosystem processing chain is designed to be independently reproducible.
 
 *Table 2. Listing of the L3T AUX data layers.*
 
-### 3.1. Downscaled Meteorology
+### 3.1. Downscaled Meteorology & Soil Moisture
 
-Coarse resolution near-surface air temperature (Ta) and relative humidity (RH) are taken from the GEOS-5 FP `tavg1_2d_slv_Nx` product. Ta and RH are down-scaled using a linear regression between up-sampled ST, NDVI, and albedo as predictor variables to Ta or RH from GEOS-5 FP as a response variable, within each Sentinel tile. These regression coefficients are then applied to the 60 m ST, NDVI, and albedo, and this first-pass estimate is then bias-corrected to the coarse image from GEOS-5 FP. These downscaled meteorology estimates are recorded in the L3T AUX product listed in Table . Areas of cloud are filled in with bi-cubically resampled GEOS-5 FP.
+```mermaid
+flowchart TB
+    subgraph SBG_L2[SBG-TIR OTTER L2]
+        direction TB
+        SBG_L2T_LSTE[SBG-TIR<br>OTTER<br>L2T_STARS<br>NDVI<br>&<br>Albedo<br>Product]
+        SBG_L2T_STARS[SBG-TIR<br>OTTER<br>L2T_LSTE<br>Surface Temperature<br>&<br>Emissivity<br>Product]
+        ST[Surface Temperature 60m]
+        NDVI[NDVI 60m]
+        albedo[Albedo 60m]
+        SBG_L2T_LSTE --> ST
+        SBG_L2T_STARS --> NDVI
+        SBG_L2T_STARS --> albedo
+    end
 
-### 3.2. Downscaled Soil Moisture
+    subgraph GEOS5FP[GEOS-5 FP]
+        direction TB
+        GEOS5FP_Ta[GEOS-5 FP<br>Air<br>Temperature]
+        GEOS5FP_RH[GEOS-5 FP<br>Humidity]
+        GEOS5FP_SM[GEOS-5 FP<br>Soil<br>Moisture]
+    end
 
-This same down-scaling procedure is applied to soil moisture (SM) from the GEOS-5 FP `tavg1_2d_lnd_Nx` product, which is recorded in the L3T AUX product listed in Table .
+    subgraph downscaling[Downscaling]
+        direction TB
+        downscale_Ta[Air<br>Temperature<br>Downscaling]
+        downscale_RH[Humidity<br>Downscaling]
+        downscale_SM[Soil<br>Moisture<br>Downscaling]
+    end
 
-### 3.3. Surface Energy Balance
+    subgraph downscaled_meteorology[Downscaled Meteorology]
+        direction TB
+        downscaled_Ta[Downscaled<br>60m<br>Air<br>Temperature]
+        downscaled_RH[Downscaled<br>60m<br>Humidity]
+        downscaled_SM[Downscaled<br>60m<br>Soil<br>Moisture]
+    end
+
+    GEOS5FP_Ta --> downscale_Ta
+    ST --> downscale_Ta
+    NDVI --> downscale_Ta
+    albedo --> downscale_Ta
+
+    GEOS5FP_RH --> downscale_RH
+    ST --> downscale_RH
+    NDVI --> downscale_RH
+    albedo --> downscale_RH
+
+    GEOS5FP_SM --> downscale_SM
+    ST --> downscale_SM
+    NDVI --> downscale_SM
+    albedo --> downscale_SM
+
+    downscale_Ta --> downscaled_Ta
+    downscale_RH --> downscaled_RH
+    downscale_SM --> downscaled_SM
+```
+
+Coarse resolution near-surface air temperature (Ta) and relative humidity (RH) are taken from the GEOS-5 FP `tavg1_2d_slv_Nx` product. Ta and RH are down-scaled using a linear regression between up-sampled ST, NDVI, and albedo as predictor variables to Ta or RH from GEOS-5 FP as a response variable, within each Sentinel tile. These regression coefficients are then applied to the 60 m ST, NDVI, and albedo, and this first-pass estimate is then bias-corrected to the coarse image from GEOS-5 FP. These downscaled meteorology estimates are recorded in the L3T AUX product listed in Table . Areas of cloud are filled in with bi-cubically resampled GEOS-5 FP. This same down-scaling procedure is applied to soil moisture (SM) from the GEOS-5 FP `tavg1_2d_lnd_Nx` product, which is recorded in the L3T AUX product listed in Table .
+
+### 3.2. Surface Energy Balance
+
+```mermaid
+flowchart TB
+    subgraph SBG_L2[SBG-TIR OTTER L2]
+        direction TB
+        SBG_L2T_LSTE[SBG-TIR<br>OTTER<br>L2T_STARS<br>NDVI<br>&<br>Albedo<br>Product]
+        SBG_L2T_STARS[SBG-TIR<br>OTTER<br>L2T_LSTE<br>Surface Temperature<br>&<br>Emissivity<br>Product]
+        ST[Surface Temperature 60m]
+        NDVI[NDVI 60m]
+        albedo[Albedo 60m]
+        SBG_L2T_LSTE --> ST
+        SBG_L2T_STARS --> NDVI
+        SBG_L2T_STARS --> albedo
+    end
+
+    subgraph downscaled_meteorology[Downscaled Meteorology]
+        direction TB
+        downscaled_Ta[Downscaled<br>60m<br>Air<br>Temperature]
+        downscaled_RH[Downscaled<br>60m<br>Humidity]
+        downscaled_SM[Downscaled<br>60m<br>Soil<br>Moisture]
+    end
+
+    subgraph GEOS5FP[GEOS-5 FP]
+        direction TB
+        GEOS5FP_AOT[GEOS-5 FP AOT]
+        GEOS5FP_COT[GEOS-5 FP COT]
+    end
+
+    BESS_Rn[BESS<br>60m<br>Net<br>Radiation]
+    BESS_GPP[BESS<br>60m<br>GPP]
+    BESS_ET[BESS<br>60m<br>ET]
+
+    GEOS5FP_AOT --> FLiES
+    GEOS5FP_COT --> FLiES
+    albedo --> FLiES
+    
+    FLiES --> BESS
+    ST --> BESS
+    NDVI --> BESS
+    albedo --> BESS
+    downscaled_Ta --> BESS
+    downscaled_RH --> BESS
+    downscaled_SM --> BESS
+
+    BESS --> BESS_Rn
+    BESS --> BESS_GPP
+    BESS --> BESS_ET
+```
 
 The surface energy balance processing for SBG begins with an artificial neural network (ANN) implementation of the Forest Light Environmental Simulator (FLiES) radiative transfer algorithm, following the workflow established by Dr. Hideki Kobayashi and Dr. Youngryel Ryu. GEOS-5 FP provides sub-daily Cloud Optical Thickness (COT) in the `tavg1_2d_rad_Nx` product and Aerosol Optical Thickness (AOT) from `tavg3_2d_aer_Nx`. Together with STARS albedo, these variables are run through the ANN implementation of FLiES to estimate incoming shortwave radiation (Rg), bias-corrected to Rg from the GEOS-5 FP `tavg1_2d_rad_Nx` product.
 
