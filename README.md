@@ -34,13 +34,36 @@ flowchart TB
         direction TB
         SBG_L2T_LSTE[SBG-TIR<br>OTTER<br>L2T_STARS<br>NDVI<br>&<br>Albedo<br>Product]
         SBG_L2T_STARS[SBG-TIR<br>OTTER<br>L2T_LSTE<br>Surface Temperature<br>&<br>Emissivity<br>Product]
+        ST[Surface Temperature 60m]
+        NDVI[NDVI 60m]
+        albedo[Albedo 60m]
+        SBG_L2T_LSTE --> ST
+        SBG_L2T_STARS --> NDVI
+        SBG_L2T_STARS --> albedo
     end
 
     subgraph GEOS5FP[GEOS-5 FP]
+        direction TB
         GEOS5FP_Ta[GEOS-5 FP<br>Air Temperature]
         GEOS5FP_RH[GEOS-5 FP<br>Humidity]
         GEOS5FP_SM[GEOS-5 FP<br>Soil Moisture]
     end
+
+    subgraph downscaling[Downscaling]
+        direction TB
+        downscale_Ta[Air Temperature<br>Downscaling]
+        downscale_RH[Humidity<br>Downscaling]
+        downscale_SM[Soil Moisture<br>Downscaling]
+    end
+
+    subgraph downscaled_meteorology[Downscaled Meteorology]
+        direction TB
+        downscaled_Ta[Downscaled<br>60m<br>Air Temperature]
+        downscaled_RH[Downscaled<br>60m<br>Humidity]
+        downscaled_SM[Downscaled<br>60m<br>Soil Moisture]
+    end
+
+            
 ```
 
 ## 1. Introduction to Data Products
