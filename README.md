@@ -31,8 +31,8 @@ The repositories for the evapotranspiration algorithms are located in the [JPL-E
 ```mermaid
 flowchart TB
     subgraph SBG_L2[SBG-TIR OTTER L2]
-      SBG_L2T_LSTE[SBG-TIR<br>OTTER<br>L2T<br>STARS<br>NDVI<br>&<br>Albedo<br>Product]
-      SBG_L2T_STARS[SBG-TIR<br>OTTER<br>L2T<br>LSTE<br>Surface Temperature<br>&<br>Emissivity<br>Product]
+      SBG_L2T_LSTE[SBG-TIR<br>OTTER<br>L2T_STARS<br>NDVI<br>&<br>Albedo<br>Product]
+      SBG_L2T_STARS[SBG-TIR<br>OTTER<br>L2T_LSTE<br>Surface Temperature<br>&<br>Emissivity<br>Product]
     end
 ```
 
