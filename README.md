@@ -35,7 +35,6 @@ flowchart TB
         SBG_L2T_LSTE[SBG-TIR<br>OTTER<br>L2T_STARS<br>NDVI<br>&<br>Albedo<br>Product]
         SBG_L2T_STARS[SBG-TIR<br>OTTER<br>L2T_LSTE<br>Surface Temperature<br>&<br>Emissivity<br>Product]
     end
-end
 ```
 
 ## 1. Introduction to Data Products
