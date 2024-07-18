@@ -44,26 +44,43 @@ flowchart TB
 
     subgraph GEOS5FP[GEOS-5 FP]
         direction TB
-        GEOS5FP_Ta[GEOS-5 FP<br>Air Temperature]
+        GEOS5FP_Ta[GEOS-5 FP<br>Air<br>Temperature]
         GEOS5FP_RH[GEOS-5 FP<br>Humidity]
-        GEOS5FP_SM[GEOS-5 FP<br>Soil Moisture]
+        GEOS5FP_SM[GEOS-5 FP<br>Soil<br>Moisture]
     end
 
     subgraph downscaling[Downscaling]
         direction TB
-        downscale_Ta[Air Temperature<br>Downscaling]
+        downscale_Ta[Air<br>Temperature<br>Downscaling]
         downscale_RH[Humidity<br>Downscaling]
-        downscale_SM[Soil Moisture<br>Downscaling]
+        downscale_SM[Soil<br>Moisture<br>Downscaling]
     end
 
     subgraph downscaled_meteorology[Downscaled Meteorology]
         direction TB
-        downscaled_Ta[Downscaled<br>60m<br>Air Temperature]
+        downscaled_Ta[Downscaled<br>60m<br>Air<br>Temperature]
         downscaled_RH[Downscaled<br>60m<br>Humidity]
-        downscaled_SM[Downscaled<br>60m<br>Soil Moisture]
+        downscaled_SM[Downscaled<br>60m<br>Soil<br>Moisture]
     end
 
-            
+    GEOS5FP_Ta --> downscale_Ta
+    ST --> downscale_Ta
+    NDVI --> downscale_Ta
+    albedo --> downscale_Ta
+
+    GEOS5FP_RH --> downscale_RH
+    ST --> downscale_RH
+    NDVI --> downscale_RH
+    albedo --> downscale_RH
+
+    GEOS5FP_SM --> downscale_SM
+    ST --> downscale_SM
+    NDVI --> downscale_SM
+    albedo --> downscale_SM
+
+    downscale_Ta --> downscaled_Ta
+    downscale_RH --> downscaled_RH
+    downscale_SM --> downscaled_SM
 ```
 
 ## 1. Introduction to Data Products
