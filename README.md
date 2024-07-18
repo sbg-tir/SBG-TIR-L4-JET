@@ -35,6 +35,12 @@ flowchart TB
         SBG_L2T_LSTE[SBG-TIR<br>OTTER<br>L2T_STARS<br>NDVI<br>&<br>Albedo<br>Product]
         SBG_L2T_STARS[SBG-TIR<br>OTTER<br>L2T_LSTE<br>Surface Temperature<br>&<br>Emissivity<br>Product]
     end
+
+    subgraph GEOS5FP[GEOS-5 FP]
+        GEOS5FP_Ta[GEOS-5 FP<br>Air Temperature]
+        GEOS5FP_RH[GEOS-5 FP<br>Humidity]
+        GEOS5FP_SM[GEOS-5 FP<br>Soil Moisture]
+    end
 ```
 
 ## 1. Introduction to Data Products
