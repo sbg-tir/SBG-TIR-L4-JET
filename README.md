@@ -28,8 +28,13 @@ Evapotranspiration (ET) is one of the main science outputs from the Surface Biol
 
 The repositories for the evapotranspiration algorithms are located in the [JPL-Evapotranspiration-Algorithms](https://github.com/JPL-Evapotranspiration-Algorithms) organization.
 
-# Table of Contents 
-
+```mermaid
+flowchart TB
+    subgraph SBG_L2[SBG-TIR OTTER L2]
+      SBG_L2T_LSTE[SBG-TIR<br>OTTER<br>L2T<br>STARS<br>NDVI<br>&<br>Albedo<br>Product]
+      SBG_L2T_STARS[SBG-TIR<br>OTTER<br>L2T<br>LSTE<br>Surface Temperature<br>&<br>Emissivity<br>Product]
+    end
+```
 
 ## 1. Introduction to Data Products
 
