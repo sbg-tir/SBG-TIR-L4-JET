@@ -42,7 +42,7 @@ Each SBG product bundle contains two sets of product metadata:
 -   StandardMetadata
 
 #### 2.1.1. Standard Metadata
-Each product contains a custom set of `ProductMetadata` attributes, as listed in Table 5. Information on the `StandardMetadata` is included on the [SBG-TIR github landing page](https://github.com/sbg-tir)
+Information on the `StandardMetadata` is included on the [SBG-TIR github landing page](https://github.com/sbg-tir)
 
 #### 2.1.2. Product Metadata
 
