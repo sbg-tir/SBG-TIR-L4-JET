@@ -19,6 +19,9 @@ NASA Jet Propulsion Laboratory 329F
 NASA Jet Propulsion Laboratory 329G
 
 
+
+## 1. Introduction 
+
 This software will produce estimates of:
 - evapotranspiration (ET)
 - evaporative stress index (ESI)
@@ -28,9 +31,31 @@ Evapotranspiration (ET) is one of the main science outputs from the Surface Biol
 
 The repositories for the evapotranspiration algorithms are located in the [JPL-Evapotranspiration-Algorithms](https://github.com/JPL-Evapotranspiration-Algorithms) organization.
 
-## 1. Introduction to Data Products
+## 2. Data Products 
 
-This is the user guide for the SBG tiled products. SBG acquires data within an orbit, and this orbit path is divided into scenes roughly 935 x 935 km in size. The SBG orbit/scene/tile products are distributed in Cloud-Optimized GeoTIFF (COG) format. The tiled products are listed in Table 1.
+### 2.1. Metadata
+
+SBG-TIR standards incorporate additional metadata that describe each GeoTIFF Dataset within the GeoTIFF file. Each of these metadata elements appear in an GeoTIFF Attribute that is directly associated with the GeoTIFF Dataset. Wherever possible, these GeoTIFF Attributes employ names that conform to the Climate and Forecast (CF) conventions. 
+
+Each SBG product bundle contains two sets of product metadata:
+-   ProductMetadata
+-   StandardMetadata
+
+#### 2.1.1. Standard Metadata
+Each product contains a custom set of `ProductMetadata` attributes, as listed in Table 5. Information on the `StandardMetadata` is included on the [SBG-TIR github landing page](https://github.com/sbg-tir)
+
+#### 2.1.2. Product Metadata
+
+| **Name** | **Type** |
+| --- | --- |
+| BandSpecification | float |
+| NumberOfBands | integer |
+| OrbitCorrectionPerformed | string |
+| QAPercentCloudCover | float |
+| QAPercentGoodQuality | float |
+| AuxiliaryNWP | string |
+
+*Table 9. Name and type of metadata fields contained in the common ProductMetadata group in each L2T/L3T/L4T product.*
 
 | **Product Long Name** | **Product Short Name** |
 | --- | --- |
@@ -42,22 +67,15 @@ This is the user guide for the SBG tiled products. SBG acquires data within an o
 
 *Table 1. Listing of SBG ecosystem products long names and short names.*
 
-### 1.1. Cloud-Optimized GeoTIFF Orbit/Scene/Tile Products 
 
-To provide an analysis-ready format, the SBG products are distributed in a tiled form and using the COG format. The tiled products include the letter T in their level identifiers: L1CT, L2T, L3T, and L4T. The tiling system used for SBG is borrowed from the modified Military Grid Reference System (MGRS) tiling scheme used by Sentinel 2. These tiles divide the Universal Transverse Mercator (UTM) zones into square tiles 109800 m across. SBG uses a 60 m cell size with 1830 rows by 1830 columns in each tile, totaling 3.35 million pixels per tile. This allows the end user to assume that each 60 m SBG pixel will remain in the same location at each timestep observed in analysis. The COG format also facilitates end-user analysis as a universally recognized and supported format, compatible with open-source software, including QGIS, ArcGIS, GDAL, the Raster package in R, `rioxarray` in Python, and `Rasters.jl` in Julia.
-
-Each `float32` data layer occupies 4 bytes of storage per pixel, which amounts to an uncompressed size of 13.4 mb for each tiled data layer. The `uint8` quality flag layers occupy a single byte per pixel, which amounts to an uncompressed size of 3.35 mb per tiled data quality layer.
-
-Each `.tif` COG data layer in each L2T/L3T/L4T product additionally contains a rendered browse image in GeoJPEG format with a `.jpeg` extension. This image format is universally recognized and supported, and these files are compatible with Google Earth. Each L2T/L3T/L4T tile granule includes a `.json` file containing the Product Metadata and Standard Metadata in JSON format.
-
-### 1.2. Quality Flags
+### 2.2. Quality Flags
 
 Two high-level quality flags are provided in all gridded and tiled products as thematic/binary masks encoded to zero and one in unsigned 8-bit integer layers. The cloud layer represents the final cloud test from L2 CLOUD. The water layer represents the surface water body in the Shuttle Radar Topography Mission (SRTM) Digital Elevation Model. For both layers, zero means absence, and one means presence. Pixels with the value 1 in the cloud layer represent detection of cloud in that pixel. Pixels with the value 1 in the water layer represent open water surface in that pixel. All tiled product data layers written in `float32` contain a standard not-a-number (`NaN`) value at each pixel that could not be retrieved. The cloud and water layers are provided to explain these missing values.
-
-## 2. L2T STARS NDVI and Albedo Product
+  
+### 2.3. L2T STARS NDVI and Albedo Product
 The STARS data product is produced with a separate Product Generating Executable (PGE) [SBG-TIR-L2-STARS](https://github.com/sbg-tir/SBG-TIR-L2-STARS).
 
-## 3. L3T AUX Ecosystem Auxiliary Inputs Product
+### 2.4. L3T AUX Ecosystem Auxiliary Inputs Product
 
 The SBG ecosystem processing chain is designed to be independently reproducible. To facilitate open science, the auxiliary data inputs that are produced for evapotranspiration processing are distributed as a data product, such that the end user has the ability to run their own evapotranspiration model using SBG data. The data layers of the L3T AUX product are described in Table 3.
 
@@ -72,7 +90,7 @@ The SBG ecosystem processing chain is designed to be independently reproducible.
 
 *Table 2. Listing of the L3T AUX data layers.*
 
-### 3.1. Downscaled Meteorology & Soil Moisture
+### 2.5. Downscaled Meteorology & Soil Moisture
 
 ```mermaid
 flowchart TB
@@ -131,7 +149,7 @@ flowchart TB
 
 Coarse resolution near-surface air temperature (Ta) and relative humidity (RH) are taken from the GEOS-5 FP `tavg1_2d_slv_Nx` product. Ta and RH are down-scaled using a linear regression between up-sampled ST, NDVI, and albedo as predictor variables to Ta or RH from GEOS-5 FP as a response variable, within each Sentinel tile. These regression coefficients are then applied to the 60 m ST, NDVI, and albedo, and this first-pass estimate is then bias-corrected to the coarse image from GEOS-5 FP. These downscaled meteorology estimates are recorded in the L3T AUX product listed in Table . Areas of cloud are filled in with bi-cubically resampled GEOS-5 FP. This same down-scaling procedure is applied to soil moisture (SM) from the GEOS-5 FP `tavg1_2d_lnd_Nx` product, which is recorded in the L3T AUX product listed in Table .
 
-### 3.2. Surface Energy Balance
+### 2.6. Surface Energy Balance
 
 ```mermaid
 flowchart TB
@@ -186,7 +204,7 @@ The surface energy balance processing for SBG begins with an artificial neural n
 The Breathing Earth System Simulator (BESS) algorithm, contributed by Dr. Youngryel Ryu, iteratively calculates net radiation (Rn), ET, and Gross Primary Production (GPP) estimates. The BESS Rn is used as the Rn input to the remaining ET models and is recorded in the L3T AUX product listed in Table 3.
 
 
-## 4. L3T ET Evapotranspiration Product
+### 2.7. L3T ET Evapotranspiration Product
 
 Following design of the L3T JET product from ECOSTRESS Collection 2, the SBG L3T ET product uses an ensemble of evapotranspiration models to produce an evapotranspiration estimate.
 
@@ -209,7 +227,7 @@ The median of total latent heat flux in watts per square meter from the PT-JPL, 
 
 *Table 3. Listing of the L3T ET data layers.*
 
-## 5. L4T ESI and WUE Products
+### 2.8. L4T ESI and WUE Products
 
 The PT-JPL-SM model generates estimates of both actual and potential instantaneous ET. The potential evapotranspiration (PET) estimate represents the maximum expected ET if there were no water stress to plants on the ground. The ratio of the actual ET estimate to the PET estimate forms an index representing the water stress of plants, with zero being fully stressed with no observable ET and one being non-stressed with ET reaching PET. These ESI and PET estimates are distributed in the L4T ESI product as listed in Table 5.
 
@@ -233,7 +251,7 @@ The BESS GPP estimate represents the amount of carbon that plants are taking in.
 
 *Table 5. Listing of the L3T WUE data layers.*
 
-## 6. L3T ETLL Low Latency Evapotranspiration Product
+### 2.9. L3T ETLL Low Latency Evapotranspiration Product
 
 In addition to the standard product, there will also be a low latency (< 24 hour) ET product, produced with low latency L2 LSTE, and ancillary inputs (NDVI) from STARS from 3 days prior. The low latency ET product involves a daily ET estimate in millimeters per day, as listed in Table 7. 
 
@@ -243,78 +261,17 @@ In addition to the standard product, there will also be a low latency (< 24 hour
 | cloud | Cloud mask | float32 | Mask | 255 | N/A | 0 | 1 | N/A | 3.24 mb |
 | water | Water mask | float32 | Mask | 255 | N/A | 0 | 1 | N/A | 3.24 mb |
 
-*Table 6. Listing of the L3T ETLL data layers.*
+## 3. Theory
 
-## 7. Standard Metadata
+The JPL EvapoTranspiration (ET) data ensemble provides a robust estimation of ET from multiple ET models. The ET ensemble incorporates ET data from four algorithms: Priestley Taylor-Jet Propulsion Laboratory model with soil moisture (PT-JPLSM), the Penman Monteith MODIS Global Evapotranspiration Model (MOD16), Soil Temperature Initiated Closure (STIC) model, and the Breathing Earth System Simulator (BESS) model. We present descriptions of these models here, inherited from the ECOSTRESS mission, as candidates for SBG L3 evapotranspiration processing.
 
-Each SBG product bundle contains two sets of product metadata:
--   ProductMetadata
--   StandardMetadata
+## 4. Uncertainty Analysis
 
-Each product contains a custom set of `ProductMetadata` attributes, as listed in Table 8. The `StandardMetadata` attributes are consistent across products at each orbit/scene, as listed in Table 9.
-| **Name** | **Type** |
-| --- | --- |
-| AncillaryInputPointer | string |
-| AutomaticQualityFlag | string |
-| AutomaticQualityFlagExplanation | string |
-| BuildID | string |
-| CRS | string |
-| CampaignShortName | string |
-| CollectionLabel | string |
-| DataFormatType | string |
-| DayNightFlag | string |
-| EastBoundingCoordinate | float |
-| FieldOfViewObstruction | string |
-| ImageLines | float |
-| ImageLineSpacing | integer |
-| ImagePixels | float |
-| ImagePixelSpacing | integer |
-| InputPointer | string |
-| InstrumentShortName | string |
-| LocalGranuleID | string |
-| LongName | string |
-| NorthBoundingCoordinate | float |
-| PGEName | string |
-| PGEVersion | string |
-| PlatformLongName | string |
-| PlatformShortName | string |
-| PlatformType | string |
-| ProcessingEnvironment | string |
-| ProcessingLevelDescription | string |
-| ProcessingLevelID | string |
-| ProducerAgency | string |
-| ProducerInstitution | string |
-| ProductionDateTime | string |
-| ProductionLocation | string |
-| RangeBeginningDate | string |
-| RangeBeginningTime | string |
-| RangeEndingDate | string |
-| RangeEndingTime | string |
-| RegionID | string |
-| SISName | string |
-| SISVersion | string |
-| SceneBoundaryLatLonWKT | string |
-| SceneID | string |
-| ShortName | string |
-| SouthBoundingCoordinate | float |
-| StartOrbitNumber | string |
-| StopOrbitNumber | string |
-| WestBoundingCoordinate | float |
 
-*Table 8. Name and type of metadata fields contained in the common StandardMetadata group in each L2T/L3T/L4T product.*
+## 5. Cal/Val
 
-| **Name** | **Type** |
-| --- | --- |
-| BandSpecification | float |
-| NumberOfBands | integer |
-| OrbitCorrectionPerformed | string |
-| QAPercentCloudCover | float |
-| QAPercentGoodQuality | float |
-| AuxiliaryNWP | string |
 
-*Table 9. Name and type of metadata fields contained in the common ProductMetadata group in each L2T/L3T/L4T product.*
-
-## Acknowledgements 
+#### Acknowledgements 
 
 We would like to thank Joshua Fisher as the initial science lead of the SBG mission and PI of the ROSES project to re-design the SBG products.
 
@@ -324,6 +281,6 @@ We would like to thank Kaniska Mallick for contributing the STIC model.
 
 We would like to thank Martha Anderson for contributing the DisALEXI-JPL algorithm.
 
-##  Bibliography 
+####  Bibliography 
 
 Schaaf, C. (2017). *VIIRS BRDF, Albedo, and NBAR Product Algorithm Theoretical Basis Document (ATBD).* NASA Goddard Space Flight Center.
