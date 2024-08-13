@@ -18,8 +18,6 @@ NASA Jet Propulsion Laboratory 329F
 [claire.s.villanueva-weeks@jpl.nasa.gov](mailto:claire.s.villanueva-weeks@jpl.nasa.gov)<br>
 NASA Jet Propulsion Laboratory 329G
 
-
-
 ## 1. Introduction 
 
 This software will produce estimates of:
