@@ -155,8 +155,8 @@ Coarse resolution near-surface air temperature (Ta) and relative humidity (RH) a
 flowchart TB
     subgraph SBG_L2[SBG-TIR OTTER L2]
         direction TB
-        SBG_L2T_LSTE[SBG-TIR<br>OTTER<br>L2T_STARS<br>NDVI<br>&<br>Albedo<br>Product]
-        SBG_L2T_STARS[SBG-TIR<br>OTTER<br>L2T_LSTE<br>Surface Temperature<br>&<br>Emissivity<br>Product]
+        SBG_L2T_STARS[SBG-TIR<br>OTTER<br>L2T_STARS<br>NDVI<br>&<br>Albedo<br>Product]
+        SBG_L2T_LSTE[SBG-TIR<br>OTTER<br>L2T_LSTE<br>Surface Temperature<br>&<br>Emissivity<br>Product]
         ST[Surface Temperature 60m]
         NDVI[NDVI 60m]
         albedo[Albedo 60m]
