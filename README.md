@@ -251,7 +251,7 @@ The BESS GPP estimate represents the amount of carbon that plants are taking in.
 
 *Table 5. Listing of the L3T WUE data layers.*
 
-### 2.9. L3T ETLL Low Latency Evapotranspiration Product
+### 2.9. L3T JETLL Low Latency Evapotranspiration Product
 
 In addition to the standard product, there will also be a low latency (< 24 hour) ET product, produced with low latency L2 LSTE, and ancillary inputs (NDVI) from STARS from 3 days prior. The low latency ET product involves a daily ET estimate in millimeters per day, as listed in Table 7. 
 
