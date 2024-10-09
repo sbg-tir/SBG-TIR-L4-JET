@@ -1,4 +1,4 @@
-# SBG-TIR OTTER L3T ET, L4T ESI, and L4T WUE Data Products
+# SBG-TIR OTTER L4T ET ESI, and WUE Data Products
 
 This is the main repository for the Suface Biology and Geology Thermal Infrared (SBG-TIR) level 3 & 4 evapotranspiration data product generation software. 
 
@@ -60,8 +60,8 @@ Information on the `StandardMetadata` is included on the [SBG-TIR github landing
 | **Product Long Name** | **Product Short Name** |
 | --- | --- |
 | STARS NDVI/Albedo | L2T STARS |
-| Ecosystem Auxiliary Inputs | L3T AUX |
-| Evapotranspiration | L3T ET |
+| Ecosystem Auxiliary Inputs | L4T ETAUX |
+| Evapotranspiration | L4T ET |
 | Evaporative Stress Index | L4T ESI |
 | Water Use Efficiency | L4T WUE |
 
@@ -75,9 +75,9 @@ Two high-level quality flags are provided in all gridded and tiled products as t
 ### 2.3. L2T STARS NDVI and Albedo Product
 The STARS data product is produced with a separate Product Generating Executable (PGE) [SBG-TIR-L2-STARS](https://github.com/sbg-tir/SBG-TIR-L2-STARS).
 
-### 2.4. L3T AUX Ecosystem Auxiliary Inputs Product
+### 2.4. L4T AUX Ecosystem Auxiliary Inputs Product
 
-The SBG ecosystem processing chain is designed to be independently reproducible. To facilitate open science, the auxiliary data inputs that are produced for evapotranspiration processing are distributed as a data product, such that the end user has the ability to run their own evapotranspiration model using SBG data. The data layers of the L3T AUX product are described in Table 3.
+The SBG ecosystem processing chain is designed to be independently reproducible. To facilitate open science, the auxiliary data inputs that are produced for evapotranspiration processing are distributed as a data product, such that the end user has the ability to run their own evapotranspiration model using SBG data. The data layers of the L4T ETAUX product are described in Table 3.
 
 | **Name** | **Description** | **Type** | **Units** | **Fill Value** | **No Data Value** | **Valid Min** | **Valid Max** | **Scale Factor** |**Size** |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | -- |
@@ -88,7 +88,7 @@ The SBG ecosystem processing chain is designed to be independently reproducible.
 | cloud | Cloud mask | float32 | Mask | 255 | N/A | 0 | 1 | N/A | 3.24 mb |
 | water | Water mask | float32 | Mask | 255 | N/A | 0 | 1 | N/A | 3.24 mb |
 
-*Table 2. Listing of the L3T AUX data layers.*
+*Table 2. Listing of the L4T ETAUX data layers.*
 
 ### 2.5. Downscaled Meteorology & Soil Moisture
 
@@ -147,7 +147,7 @@ flowchart TB
     downscale_SM --> downscaled_SM
 ```
 
-Coarse resolution near-surface air temperature (Ta) and relative humidity (RH) are taken from the GEOS-5 FP `tavg1_2d_slv_Nx` product. Ta and RH are down-scaled using a linear regression between up-sampled ST, NDVI, and albedo as predictor variables to Ta or RH from GEOS-5 FP as a response variable, within each Sentinel tile. These regression coefficients are then applied to the 60 m ST, NDVI, and albedo, and this first-pass estimate is then bias-corrected to the coarse image from GEOS-5 FP. These downscaled meteorology estimates are recorded in the L3T AUX product listed in Table . Areas of cloud are filled in with bi-cubically resampled GEOS-5 FP. This same down-scaling procedure is applied to soil moisture (SM) from the GEOS-5 FP `tavg1_2d_lnd_Nx` product, which is recorded in the L3T AUX product listed in Table .
+Coarse resolution near-surface air temperature (Ta) and relative humidity (RH) are taken from the GEOS-5 FP `tavg1_2d_slv_Nx` product. Ta and RH are down-scaled using a linear regression between up-sampled ST, NDVI, and albedo as predictor variables to Ta or RH from GEOS-5 FP as a response variable, within each Sentinel tile. These regression coefficients are then applied to the 60 m ST, NDVI, and albedo, and this first-pass estimate is then bias-corrected to the coarse image from GEOS-5 FP. These downscaled meteorology estimates are recorded in the L4T ETAUX product listed in Table . Areas of cloud are filled in with bi-cubically resampled GEOS-5 FP. This same down-scaling procedure is applied to soil moisture (SM) from the GEOS-5 FP `tavg1_2d_lnd_Nx` product, which is recorded in the L4T ETAUX product listed in Table .
 
 ### 2.6. Surface Energy Balance
 
@@ -201,14 +201,14 @@ flowchart TB
 
 The surface energy balance processing for SBG begins with an artificial neural network (ANN) implementation of the Forest Light Environmental Simulator (FLiES) radiative transfer algorithm, following the workflow established by Dr. Hideki Kobayashi and Dr. Youngryel Ryu. GEOS-5 FP provides sub-daily Cloud Optical Thickness (COT) in the `tavg1_2d_rad_Nx` product and Aerosol Optical Thickness (AOT) from `tavg3_2d_aer_Nx`. Together with STARS albedo, these variables are run through the ANN implementation of FLiES to estimate incoming shortwave radiation (Rg), bias-corrected to Rg from the GEOS-5 FP `tavg1_2d_rad_Nx` product.
 
-The Breathing Earth System Simulator (BESS) algorithm, contributed by Dr. Youngryel Ryu, iteratively calculates net radiation (Rn), ET, and Gross Primary Production (GPP) estimates. The BESS Rn is used as the Rn input to the remaining ET models and is recorded in the L3T AUX product listed in Table 3.
+The Breathing Earth System Simulator (BESS) algorithm, contributed by Dr. Youngryel Ryu, iteratively calculates net radiation (Rn), ET, and Gross Primary Production (GPP) estimates. The BESS Rn is used as the Rn input to the remaining ET models and is recorded in the L4T ETAUX product listed in Table 3.
 
 
-### 2.7. L3T ET Evapotranspiration Product
+### 2.7. L4T ET Evapotranspiration Product
 
-Following design of the L3T JET product from ECOSTRESS Collection 2, the SBG L3T ET product uses an ensemble of evapotranspiration models to produce an evapotranspiration estimate.
+Following design of the L4T JET product from ECOSTRESS Collection 2, the SBG L4T ET product uses an ensemble of evapotranspiration models to produce an evapotranspiration estimate.
 
-The PT-JPL-SM model, developed by Dr. Adam Purdy and Dr. Joshua Fisher was designed as a SM-sensitive evapotranspiration product for the Soil Moisture Active-Passive (SMAP) mission, and then reimplemented as an ET model in the ECOSTRESS and SBG processing chain, using the downscaled soil moisture from the L3T AUX product. Similar to the PT-JPL model used in ECOSTRESS Collection 1, The PT-JPL-SM model estimates instantaneous canopy transpiration, leaf surface evaporation, and soil moisture evaporation using the Priestley-Taylor formula with a set of constraints. These three partitions are combined into total latent heat flux in watts per square meter for the ensemble estimate. 
+The PT-JPL-SM model, developed by Dr. Adam Purdy and Dr. Joshua Fisher was designed as a SM-sensitive evapotranspiration product for the Soil Moisture Active-Passive (SMAP) mission, and then reimplemented as an ET model in the ECOSTRESS and SBG processing chain, using the downscaled soil moisture from the L4T AUX product. Similar to the PT-JPL model used in ECOSTRESS Collection 1, The PT-JPL-SM model estimates instantaneous canopy transpiration, leaf surface evaporation, and soil moisture evaporation using the Priestley-Taylor formula with a set of constraints. These three partitions are combined into total latent heat flux in watts per square meter for the ensemble estimate. 
 
 The Surface Temperature Initiated Closure (STIC) model, contributed by Dr. Kaniska Mallick, was designed as a ST-sensitive ET model, adopted by ECOSTRESS and SBG for improved estimates of ET reflecting mid-day heat stress. The STIC model estimates total latent heat flux directly. This instantaneous estimate of latent heat flux is included in the ensemble estimate.
 
@@ -216,7 +216,7 @@ The MOD16 algorithm was designed as the ET product for the Moderate Resolution I
 
 The BESS model is a coupled surface energy balance and photosynthesis model. The latent heat flux component of BESS is also included in the ensemble estimate.
 
-The median of total latent heat flux in watts per square meter from the PT-JPL, STIC, MOD16, and BESS models is upscaled to a daily ET estimate in millimeters per day and recorded in the L3T ET product as `ETdaily`. The standard deviation between these multiple estimates of ET is considered the uncertainty for the SBG evapotranspiration product, as `ETinstUncertainty`. The layers for the L3T ET products are listed in Table 6 Note that the ETdaily product represents the integrated ET between sunrise and sunset.
+The median of total latent heat flux in watts per square meter from the PT-JPL, STIC, MOD16, and BESS models is upscaled to a daily ET estimate in millimeters per day and recorded in the L4T ET product as `ETdaily`. The standard deviation between these multiple estimates of ET is considered the uncertainty for the SBG evapotranspiration product, as `ETinstUncertainty`. The layers for the L4T ET products are listed in Table 6 Note that the ETdaily product represents the integrated ET between sunrise and sunset.
 
 | **Name** | **Description** | **Type** | **Units** | **Fill Value** | **No Data Value** | **Valid Min** | **Valid Max** | **Scale Factor** |**Size** |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | -- |
@@ -225,7 +225,7 @@ The median of total latent heat flux in watts per square meter from the PT-JPL, 
 | cloud | Cloud mask | float32 | Mask | 255 | N/A | 0 | 1 | N/A | 3.24 mb |
 | water | Water mask | float32 | Mask | 255 | N/A | 0 | 1 | N/A | 3.24 mb |
 
-*Table 3. Listing of the L3T ET data layers.*
+*Table 3. Listing of the L4T ET data layers.*
 
 ### 2.8. L4T ESI and WUE Products
 
@@ -249,9 +249,9 @@ The BESS GPP estimate represents the amount of carbon that plants are taking in.
 | cloud | Cloud mask | float32 | Mask | 255 | N/A | 0 | 1 | N/A | 3.24 mb |
 | water | Water mask | float32 | Mask | 255 | N/A | 0 | 1 | N/A | 3.24 mb |
 
-*Table 5. Listing of the L3T WUE data layers.*
+*Table 5. Listing of the L4T WUE data layers.*
 
-### 2.9. L3T JETLL Low Latency Evapotranspiration Product
+### 2.9. L4T JETLL Low Latency Evapotranspiration Product
 
 In addition to the standard product, there will also be a low latency (< 24 hour) ET product, produced with low latency L2 LSTE, and ancillary inputs (NDVI) from STARS from 3 days prior. The low latency ET product involves a daily ET estimate in millimeters per day, as listed in Table 7. 
 
