@@ -61,7 +61,7 @@ Information on the `StandardMetadata` is included on the [SBG-TIR github landing
 | --- | --- |
 | STARS NDVI/Albedo | L2T STARS |
 | Ecosystem Auxiliary Inputs | L4T ETAUX |
-| Evapotranspiration | L4T ET |
+| Evapotranspiration | L4T JET |
 | Evaporative Stress Index | L4T ESI |
 | Water Use Efficiency | L4T WUE |
 
