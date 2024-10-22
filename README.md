@@ -67,7 +67,6 @@ Information on the `StandardMetadata` is included on the [SBG-TIR github landing
 
 *Table 1. Listing of SBG ecosystem products long names and short names.*
 
-
 ### 2.2. Quality Flags
 
 Two high-level quality flags are provided in all gridded and tiled products as thematic/binary masks encoded to zero and one in unsigned 8-bit integer layers. The cloud layer represents the final cloud test from L2 CLOUD. The water layer represents the surface water body in the Shuttle Radar Topography Mission (SRTM) Digital Elevation Model. For both layers, zero means absence, and one means presence. Pixels with the value 1 in the cloud layer represent detection of cloud in that pixel. Pixels with the value 1 in the water layer represent open water surface in that pixel. All tiled product data layers written in `float32` contain a standard not-a-number (`NaN`) value at each pixel that could not be retrieved. The cloud and water layers are provided to explain these missing values.
@@ -203,7 +202,6 @@ The surface energy balance processing for SBG begins with an artificial neural n
 
 The Breathing Earth System Simulator (BESS) algorithm, contributed by Dr. Youngryel Ryu, iteratively calculates net radiation (Rn), ET, and Gross Primary Production (GPP) estimates. The BESS Rn is used as the Rn input to the remaining ET models and is recorded in the L4T ETAUX product listed in Table 3.
 
-
 ### 2.7. L4T ET Evapotranspiration Product
 
 Following design of the L4T JET product from ECOSTRESS Collection 2, the SBG L4T ET product uses an ensemble of evapotranspiration models to produce an evapotranspiration estimate.
@@ -267,9 +265,11 @@ The JPL EvapoTranspiration (ET) data ensemble provides a robust estimation of ET
 
 ## 4. Uncertainty Analysis
 
+TBD
 
 ## 5. Cal/Val
 
+TBD
 
 #### Acknowledgements 
 
