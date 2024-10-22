@@ -1,8 +1,8 @@
 # SBG-TIR OTTER L4T ET ESI, and WUE Data Products
 
-This is the main repository for the Suface Biology and Geology Thermal Infrared (SBG-TIR) level 3 & 4 evapotranspiration data product generation software. 
+This is the main repository for the Suface Biology and Geology Thermal Infrared (SBG-TIR) level 4 evapotranspiration data product generation software. 
 
-The SBG collection 1 level 3/4 evapotranspiration data products algorithm is being developed based on the [ECOsystem Spaceborne Thermal Radiometer Experiment on Space Station (ECOSTRESS) collection 3 level 3/4 evapotranspiration data products algorithm](https://github.com/ECOSTRESS-Collection-3/ECOv003-L3-JET).
+The SBG collection 1 level 4 evapotranspiration data products algorithm is being developed based on the [ECOsystem Spaceborne Thermal Radiometer Experiment on Space Station (ECOSTRESS) collection 3 level 3/4 evapotranspiration data products algorithm](https://github.com/ECOSTRESS-Collection-3/ECOv003-L3-JET).
 
 [Gregory H. Halverson](https://github.com/gregory-halverson-jpl) (they/them)<br>
 [gregory.h.halverson@jpl.nasa.gov](mailto:gregory.h.halverson@jpl.nasa.gov)<br>
