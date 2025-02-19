@@ -25,8 +25,8 @@ from koppengeiger import load_koppen_geiger
 import FLiESANN
 from geos5fp import GEOS5FP, FailedGEOS5FPDownload
 from sun_angles import calculate_SZA_from_DOY_and_hour
-from ECOv002_granules import L2TLSTE, L2TSTARS, L3TJET, L3TSM, L3TSEB, L3TMET, L4TESI, L4TWUE
-from ECOv002_granules import ET_COLORMAP, SM_COLORMAP, WATER_COLORMAP, CLOUD_COLORMAP, RH_COLORMAP, GPP_COLORMAP
+from SBGv001_granules import L2TLSTE, L2TSTARS, L4JET, L4SM, L4SEB, L4MET, L4TESI, L4TWUE
+from SBGv001_granules import ET_COLORMAP, SM_COLORMAP, WATER_COLORMAP, CLOUD_COLORMAP, RH_COLORMAP, GPP_COLORMAP
 
 from .exit_codes import *
 from .BESS.BESS import BESS
@@ -53,11 +53,11 @@ __version__ = version
 # constant latent heat of vaporization for water: the number of joules of energy it takes to evaporate one kilogram
 LATENT_VAPORIZATION_JOULES_PER_KILOGRAM = 2450000.0
 
-L3T_L4T_JET_TEMPLATE = join(abspath(dirname(__file__)), "L3T_L4T_JET.xml")
+L4_JET_TEMPLATE = join(abspath(dirname(__file__)), "L4_JET.xml")
 DEFAULT_BUILD = "0700"
-DEFAULT_OUTPUT_DIRECTORY = "L3T_L4T_JET_output"
-DEFAULT_PTJPL_SOURCES_DIRECTORY = "L3T_L4T_JET_sources"
-DEFAULT_STATIC_DIRECTORY = "L3T_L4T_static"
+DEFAULT_OUTPUT_DIRECTORY = "L4_JET_output"
+DEFAULT_PTJPL_SOURCES_DIRECTORY = "L4_JET_sources"
+DEFAULT_STATIC_DIRECTORY = "L4_static"
 DEFAULT_SRTM_DIRECTORY = "SRTM_directory"
 DEFAULT_GEDI_DIRECTORY = "GEDI_download"
 DEFAULT_MODISCI_DIRECTORY = "MODISCI_download"
@@ -65,17 +65,17 @@ DEFAULT_MCD12C1_DIRECTORY = "MCD12C1_download"
 DEFAULT_SOIL_GRIDS_DIRECTORY = "SoilGrids_download"
 DEFAULT_GEOS5FP_DIRECTORY = "GEOS5FP_download"
 
-L3T_SEB_SHORT_NAME = "ECO_L3T_SEB"
-L3T_SEB_LONG_NAME = "ECOSTRESS Tiled Surface Energy Balance Instantaneous L3 Global 70 m"
+L4_SEB_SHORT_NAME = "ECO_L4_SEB"
+L4_SEB_LONG_NAME = "ECOSTRESS Tiled Surface Energy Balance Instantaneous L3 Global 70 m"
 
-L3T_SM_SHORT_NAME = "ECO_L3T_SM"
-L3T_SM_LONG_NAME = "ECOSTRESS Tiled Downscaled Soil Moisture Instantaneous L3 Global 70 m"
+L4_SM_SHORT_NAME = "ECO_L4_SM"
+L4_SM_LONG_NAME = "ECOSTRESS Tiled Downscaled Soil Moisture Instantaneous L3 Global 70 m"
 
-L3T_MET_SHORT_NAME = "ECO_L3T_MET"
-L3T_MET_LONG_NAME = "ECOSTRESS Tiled Downscaled Meteorology Instantaneous L3 Global 70 m"
+L4_MET_SHORT_NAME = "ECO_L4_MET"
+L4_MET_LONG_NAME = "ECOSTRESS Tiled Downscaled Meteorology Instantaneous L3 Global 70 m"
 
-L3T_JET_SHORT_NAME = "ECO_L3T_JET"
-L3T_JET_LONG_NAME = "ECOSTRESS Tiled Evapotranspiration Ensemble Instantaneous and Daytime L3 Global 70 m"
+L4_JET_SHORT_NAME = "ECO_L4_JET"
+L4_JET_LONG_NAME = "ECOSTRESS Tiled Evapotranspiration Ensemble Instantaneous and Daytime L3 Global 70 m"
 
 L4T_ESI_SHORT_NAME = "ECO_L4T_ESI"
 L4T_ESI_LONG_NAME = "ECOSTRESS Tiled Evaporative Stress Index Instantaneous L4 Global 70 m"
@@ -443,7 +443,7 @@ def daily_Rn_integration_verma(
         return 1.6 * Rn / (np.pi * np.sin(np.pi * (hour_of_day - sunrise_hour) / (daylight_hours)))
 
 
-def generate_L3T_L4T_JET_runconfig(
+def generate_L4_JET_runconfig(
         L2T_LSTE_filename: str,
         L2T_STARS_filename: str,
         orbit: int = None,
@@ -476,7 +476,7 @@ def generate_L3T_L4T_JET_runconfig(
         tile = L2T_LSTE_granule.tile
 
     if template_filename is None:
-        template_filename = L3T_L4T_JET_TEMPLATE
+        template_filename = L4_JET_TEMPLATE
 
     template_filename = abspath(expanduser(template_filename))
 
@@ -488,7 +488,7 @@ def generate_L3T_L4T_JET_runconfig(
 
     time_UTC = L2T_LSTE_granule.time_UTC
     timestamp = f"{time_UTC:%Y%m%dT%H%M%S}"
-    granule_ID = f"ECOv002_L3T_JET_{orbit:05d}_{scene:03d}_{tile}_{timestamp}_{build}_{product_counter:02d}"
+    granule_ID = f"SBGv001_L4_JET_{orbit:05d}_{scene:03d}_{tile}_{timestamp}_{build}_{product_counter:02d}"
 
     if runconfig_filename is None:
         runconfig_filename = join(working_directory, "runconfig", f"{granule_ID}.xml")
@@ -501,10 +501,10 @@ def generate_L3T_L4T_JET_runconfig(
     working_directory = abspath(expanduser(working_directory))
 
     if executable_filename is None:
-        executable_filename = which("L3T_L4T_JET")
+        executable_filename = which("L4_JET")
 
     if executable_filename is None:
-        executable_filename = "L3T_L4T_JET"
+        executable_filename = "L4_JET"
 
     if output_directory is None:
         output_directory = join(working_directory, DEFAULT_OUTPUT_DIRECTORY)
@@ -554,7 +554,7 @@ def generate_L3T_L4T_JET_runconfig(
     # SRTM_directory = abspath(expanduser(str(SRTM_directory)))
 
     logger.info(f"generating run-config for orbit {cl.val(orbit)} scene {cl.val(scene)}")
-    logger.info(f"loading L3T_L4T_JET template: {cl.file(template_filename)}")
+    logger.info(f"loading L4_JET template: {cl.file(template_filename)}")
 
     with open(template_filename, "r") as file:
         template = file.read()
@@ -605,66 +605,66 @@ def generate_L3T_L4T_JET_runconfig(
     return runconfig_filename
 
 
-class L3TL4TJETConfig(ECOSTRESSRunConfig):
+class L4JETConfig(ECOSTRESSRunConfig):
     def __init__(self, filename: str):
         try:
-            logger.info(f"loading L3T_L4T_JET run-config: {cl.file(filename)}")
+            logger.info(f"loading L4_JET run-config: {cl.file(filename)}")
             runconfig = read_runconfig(filename)
 
             # print(JSON_highlight(runconfig))
 
             if "StaticAncillaryFileGroup" not in runconfig:
                 raise MissingRunConfigValue(
-                    f"missing StaticAncillaryFileGroup in L3T_L4T_JET run-config: {filename}")
+                    f"missing StaticAncillaryFileGroup in L4_JET run-config: {filename}")
 
-            if "L3T_L4T_JET_WORKING" not in runconfig["StaticAncillaryFileGroup"]:
+            if "L4_JET_WORKING" not in runconfig["StaticAncillaryFileGroup"]:
                 raise MissingRunConfigValue(
-                    f"missing StaticAncillaryFileGroup/L3T_L4T_JET_WORKING in L3T_L4T_JET run-config: {filename}")
+                    f"missing StaticAncillaryFileGroup/L4_JET_WORKING in L4_JET run-config: {filename}")
 
-            working_directory = abspath(runconfig["StaticAncillaryFileGroup"]["L3T_L4T_JET_WORKING"])
+            working_directory = abspath(runconfig["StaticAncillaryFileGroup"]["L4_JET_WORKING"])
             logger.info(f"working directory: {cl.dir(working_directory)}")
 
-            if "L3T_L4T_JET_SOURCES" not in runconfig["StaticAncillaryFileGroup"]:
+            if "L4_JET_SOURCES" not in runconfig["StaticAncillaryFileGroup"]:
                 raise MissingRunConfigValue(
-                    f"missing StaticAncillaryFileGroup/L3T_L4T_JET_WORKING in L3T_L4T_JET run-config: {filename}")
+                    f"missing StaticAncillaryFileGroup/L4_JET_WORKING in L4_JET run-config: {filename}")
 
-            sources_directory = abspath(runconfig["StaticAncillaryFileGroup"]["L3T_L4T_JET_SOURCES"])
+            sources_directory = abspath(runconfig["StaticAncillaryFileGroup"]["L4_JET_SOURCES"])
             logger.info(f"sources directory: {cl.dir(sources_directory)}")
 
             GEOS5FP_directory = join(sources_directory, DEFAULT_GEOS5FP_DIRECTORY)
 
-            if "L3T_L4T_STATIC" not in runconfig["StaticAncillaryFileGroup"]:
+            if "L4_STATIC" not in runconfig["StaticAncillaryFileGroup"]:
                 raise MissingRunConfigValue(
-                    f"missing StaticAncillaryFileGroup/L3T_L4T_STATIC in L3T_L4T_JET run-config: {filename}")
+                    f"missing StaticAncillaryFileGroup/L4_STATIC in L4_JET run-config: {filename}")
 
-            static_directory = abspath(runconfig["StaticAncillaryFileGroup"]["L3T_L4T_STATIC"])
+            static_directory = abspath(runconfig["StaticAncillaryFileGroup"]["L4_STATIC"])
             logger.info(f"static directory: {cl.dir(static_directory)}")
 
             if "ProductPathGroup" not in runconfig:
                 raise MissingRunConfigValue(
-                    f"missing ProductPathGroup in L3T_L4T_JET run-config: {filename}")
+                    f"missing ProductPathGroup in L4_JET run-config: {filename}")
 
             if "ProductPath" not in runconfig["ProductPathGroup"]:
                 raise MissingRunConfigValue(
-                    f"missing ProductPathGroup/ProductPath in L3T_L4T_JET run-config: {filename}")
+                    f"missing ProductPathGroup/ProductPath in L4_JET run-config: {filename}")
 
             output_directory = abspath(runconfig["ProductPathGroup"]["ProductPath"])
             logger.info(f"output directory: {cl.dir(output_directory)}")
 
             if "InputFileGroup" not in runconfig:
                 raise MissingRunConfigValue(
-                    f"missing InputFileGroup in L3T_L4T_JET run-config: {filename}")
+                    f"missing InputFileGroup in L4_JET run-config: {filename}")
 
             if "L2T_LSTE" not in runconfig["InputFileGroup"]:
                 raise MissingRunConfigValue(
-                    f"missing InputFileGroup/L2T_LSTE in L3T_L4T_JET run-config: {filename}")
+                    f"missing InputFileGroup/L2T_LSTE in L4_JET run-config: {filename}")
 
             L2T_LSTE_filename = abspath(runconfig["InputFileGroup"]["L2T_LSTE"])
             logger.info(f"L2T_LSTE file: {cl.file(L2T_LSTE_filename)}")
 
             if "L2T_STARS" not in runconfig["InputFileGroup"]:
                 raise MissingRunConfigValue(
-                    f"missing InputFileGroup/L2T_STARS in L3T_L4T_JET run-config: {filename}")
+                    f"missing InputFileGroup/L2T_STARS in L4_JET run-config: {filename}")
 
             L2T_STARS_filename = abspath(runconfig["InputFileGroup"]["L2T_STARS"])
             logger.info(f"L2T_STARS file: {cl.file(L2T_STARS_filename)}")
@@ -700,49 +700,49 @@ class L3TL4TJETConfig(ECOSTRESSRunConfig):
             L2T_LSTE_granule = L2TLSTE(L2T_LSTE_filename)
             time_UTC = L2T_LSTE_granule.time_UTC
             timestamp = f"{time_UTC:%Y%m%dT%H%M%S}"
-            granule_ID = f"ECOv002_L3T_JET_{orbit:05d}_{scene:03d}_{tile}_{timestamp}_{build}_{product_counter:02d}"
+            granule_ID = f"SBGv001_L4_JET_{orbit:05d}_{scene:03d}_{tile}_{timestamp}_{build}_{product_counter:02d}"
 
             GEDI_directory = abspath(expanduser(join(static_directory, DEFAULT_GEDI_DIRECTORY)))
             MODISCI_directory = abspath(expanduser(join(static_directory, DEFAULT_MODISCI_DIRECTORY)))
             MCD12_directory = abspath(expanduser(join(static_directory, DEFAULT_MCD12C1_DIRECTORY)))
             soil_grids_directory = abspath(expanduser(join(static_directory, DEFAULT_SOIL_GRIDS_DIRECTORY)))
 
-            L3T_JET_granule_ID = f"ECOv002_L3T_JET_{orbit:05d}_{scene:03d}_{tile}_{timestamp}_{build}_{product_counter:02d}"
-            L3T_JET_directory = join(output_directory, L3T_JET_granule_ID)
-            L3T_JET_zip_filename = f"{L3T_JET_directory}.zip"
-            L3T_JET_browse_filename = f"{L3T_JET_directory}.png"
+            L4_JET_granule_ID = f"SBGv001_L4_JET_{orbit:05d}_{scene:03d}_{tile}_{timestamp}_{build}_{product_counter:02d}"
+            L4_JET_directory = join(output_directory, L4_JET_granule_ID)
+            L4_JET_zip_filename = f"{L4_JET_directory}.zip"
+            L4_JET_browse_filename = f"{L4_JET_directory}.png"
 
-            L3T_BESS_granule_ID = f"ECOv002_L3T_BESS_{orbit:05d}_{scene:03d}_{tile}_{timestamp}_{build}_{product_counter:02d}"
-            L3T_BESS_directory = join(output_directory, L3T_BESS_granule_ID)
-            L3T_BESS_zip_filename = f"{L3T_BESS_directory}.zip"
-            L3T_BESS_browse_filename = f"{L3T_BESS_directory}.png"
+            L4_BESS_granule_ID = f"SBGv001_L4_BESS_{orbit:05d}_{scene:03d}_{tile}_{timestamp}_{build}_{product_counter:02d}"
+            L4_BESS_directory = join(output_directory, L4_BESS_granule_ID)
+            L4_BESS_zip_filename = f"{L4_BESS_directory}.zip"
+            L4_BESS_browse_filename = f"{L4_BESS_directory}.png"
 
-            L3T_MET_granule_ID = f"ECOv002_L3T_MET_{orbit:05d}_{scene:03d}_{tile}_{timestamp}_{build}_{product_counter:02d}"
-            L3T_MET_directory = join(output_directory, L3T_MET_granule_ID)
-            L3T_MET_zip_filename = f"{L3T_MET_directory}.zip"
-            L3T_MET_browse_filename = f"{L3T_MET_directory}.png"
+            L4_MET_granule_ID = f"SBGv001_L4_MET_{orbit:05d}_{scene:03d}_{tile}_{timestamp}_{build}_{product_counter:02d}"
+            L4_MET_directory = join(output_directory, L4_MET_granule_ID)
+            L4_MET_zip_filename = f"{L4_MET_directory}.zip"
+            L4_MET_browse_filename = f"{L4_MET_directory}.png"
 
-            L3T_SEB_granule_ID = f"ECOv002_L3T_SEB_{orbit:05d}_{scene:03d}_{tile}_{timestamp}_{build}_{product_counter:02d}"
-            L3T_SEB_directory = join(output_directory, L3T_SEB_granule_ID)
-            L3T_SEB_zip_filename = f"{L3T_SEB_directory}.zip"
-            L3T_SEB_browse_filename = f"{L3T_SEB_directory}.png"
+            L4_SEB_granule_ID = f"SBGv001_L4_SEB_{orbit:05d}_{scene:03d}_{tile}_{timestamp}_{build}_{product_counter:02d}"
+            L4_SEB_directory = join(output_directory, L4_SEB_granule_ID)
+            L4_SEB_zip_filename = f"{L4_SEB_directory}.zip"
+            L4_SEB_browse_filename = f"{L4_SEB_directory}.png"
 
-            L3T_SM_granule_ID = f"ECOv002_L3T_SM_{orbit:05d}_{scene:03d}_{tile}_{timestamp}_{build}_{product_counter:02d}"
-            L3T_SM_directory = join(output_directory, L3T_SM_granule_ID)
-            L3T_SM_zip_filename = f"{L3T_SM_directory}.zip"
-            L3T_SM_browse_filename = f"{L3T_SM_directory}.png"
+            L4_SM_granule_ID = f"SBGv001_L4_SM_{orbit:05d}_{scene:03d}_{tile}_{timestamp}_{build}_{product_counter:02d}"
+            L4_SM_directory = join(output_directory, L4_SM_granule_ID)
+            L4_SM_zip_filename = f"{L4_SM_directory}.zip"
+            L4_SM_browse_filename = f"{L4_SM_directory}.png"
 
-            L4T_ESI_granule_ID = f"ECOv002_L4T_ESI_{orbit:05d}_{scene:03d}_{tile}_{timestamp}_{build}_{product_counter:02d}"
+            L4T_ESI_granule_ID = f"SBGv001_L4T_ESI_{orbit:05d}_{scene:03d}_{tile}_{timestamp}_{build}_{product_counter:02d}"
             L4T_ESI_directory = join(output_directory, L4T_ESI_granule_ID)
             L4T_ESI_zip_filename = f"{L4T_ESI_directory}.zip"
             L4T_ESI_browse_filename = f"{L4T_ESI_directory}.png"
 
-            L4T_WUE_granule_ID = f"ECOv002_L4T_WUE_{orbit:05d}_{scene:03d}_{tile}_{timestamp}_{build}_{product_counter:02d}"
+            L4T_WUE_granule_ID = f"SBGv001_L4T_WUE_{orbit:05d}_{scene:03d}_{tile}_{timestamp}_{build}_{product_counter:02d}"
             L4T_WUE_directory = join(output_directory, L4T_WUE_granule_ID)
             L4T_WUE_zip_filename = f"{L4T_WUE_directory}.zip"
             L4T_WUE_browse_filename = f"{L4T_WUE_directory}.png"
 
-            PGE_name = "L3T_L4T_JET"
+            PGE_name = "L4_JET"
             PGE_version = PGEVersion
 
             self.working_directory = working_directory
@@ -763,30 +763,30 @@ class L3TL4TJETConfig(ECOSTRESSRunConfig):
             self.product_counter = product_counter
             self.granule_ID = granule_ID
 
-            self.L3T_JET_granule_ID = L3T_JET_granule_ID
-            self.L3T_JET_directory = L3T_JET_directory
-            self.L3T_JET_zip_filename = L3T_JET_zip_filename
-            self.L3T_JET_browse_filename = L3T_JET_browse_filename
+            self.L4_JET_granule_ID = L4_JET_granule_ID
+            self.L4_JET_directory = L4_JET_directory
+            self.L4_JET_zip_filename = L4_JET_zip_filename
+            self.L4_JET_browse_filename = L4_JET_browse_filename
 
-            self.L3T_BESS_granule_ID = L3T_BESS_granule_ID
-            self.L3T_BESS_directory = L3T_BESS_directory
-            self.L3T_BESS_zip_filename = L3T_BESS_zip_filename
-            self.L3T_BESS_browse_filename = L3T_BESS_browse_filename
+            self.L4_BESS_granule_ID = L4_BESS_granule_ID
+            self.L4_BESS_directory = L4_BESS_directory
+            self.L4_BESS_zip_filename = L4_BESS_zip_filename
+            self.L4_BESS_browse_filename = L4_BESS_browse_filename
 
-            self.L3T_MET_granule_ID = L3T_MET_granule_ID
-            self.L3T_MET_directory = L3T_MET_directory
-            self.L3T_MET_zip_filename = L3T_MET_zip_filename
-            self.L3T_MET_browse_filename = L3T_MET_browse_filename
+            self.L4_MET_granule_ID = L4_MET_granule_ID
+            self.L4_MET_directory = L4_MET_directory
+            self.L4_MET_zip_filename = L4_MET_zip_filename
+            self.L4_MET_browse_filename = L4_MET_browse_filename
 
-            self.L3T_SEB_granule_ID = L3T_SEB_granule_ID
-            self.L3T_SEB_directory = L3T_SEB_directory
-            self.L3T_SEB_zip_filename = L3T_SEB_zip_filename
-            self.L3T_SEB_browse_filename = L3T_SEB_browse_filename
+            self.L4_SEB_granule_ID = L4_SEB_granule_ID
+            self.L4_SEB_directory = L4_SEB_directory
+            self.L4_SEB_zip_filename = L4_SEB_zip_filename
+            self.L4_SEB_browse_filename = L4_SEB_browse_filename
 
-            self.L3T_SM_granule_ID = L3T_SM_granule_ID
-            self.L3T_SM_directory = L3T_SM_directory
-            self.L3T_SM_zip_filename = L3T_SM_zip_filename
-            self.L3T_SM_browse_filename = L3T_SM_browse_filename
+            self.L4_SM_granule_ID = L4_SM_granule_ID
+            self.L4_SM_directory = L4_SM_directory
+            self.L4_SM_zip_filename = L4_SM_zip_filename
+            self.L4_SM_browse_filename = L4_SM_browse_filename
 
             self.L4T_WUE_granule_ID = L4T_WUE_granule_ID
             self.L4T_WUE_directory = L4T_WUE_directory
@@ -809,7 +809,7 @@ class L3TL4TJETConfig(ECOSTRESSRunConfig):
             raise UnableToParseRunConfig(f"unable to parse run-config file: {filename}")
 
 
-def L3T_L4T_JET(
+def L4_JET(
         runconfig_filename: str,
         upsampling: str = None,
         downsampling: str = None,
@@ -825,7 +825,7 @@ def L3T_L4T_JET(
         show_distribution: bool = SHOW_DISTRIBUTION,
         floor_Topt: bool = FLOOR_TOPT) -> int:
     """
-    ECOSTRESS Collection 2 L3T L4T JET PGE
+    ECOSTRESS Collection 2 L4 JET PGE
     :param runconfig_filename: filename for XML run-config
     :param log_filename: filename for logger output
     :return: exit code number
@@ -839,53 +839,53 @@ def L3T_L4T_JET(
         downsampling = "linear"
 
     try:
-        runconfig = L3TL4TJETConfig(runconfig_filename)
+        runconfig = L4JETConfig(runconfig_filename)
         working_directory = runconfig.working_directory
         granule_ID = runconfig.granule_ID
         log_filename = join(working_directory, "log", f"{granule_ID}.log")
         cl.configure(filename=log_filename, strip_console=strip_console)
         timer = Timer()
-        logger.info(f"started L3T L4T JET run at {cl.time(datetime.utcnow())} UTC")
-        logger.info(f"L3T_L4T_JET PGE ({cl.val(runconfig.PGE_version)})")
-        logger.info(f"L3T_L4T_JET run-config: {cl.file(runconfig_filename)}")
+        logger.info(f"started L4 JET run at {cl.time(datetime.utcnow())} UTC")
+        logger.info(f"L4_JET PGE ({cl.val(runconfig.PGE_version)})")
+        logger.info(f"L4_JET run-config: {cl.file(runconfig_filename)}")
 
-        L3T_JET_granule_ID = runconfig.L3T_JET_granule_ID
-        logger.info(f"L3T JET granule ID: {cl.val(L3T_JET_granule_ID)}")
+        L4_JET_granule_ID = runconfig.L4_JET_granule_ID
+        logger.info(f"L4 JET granule ID: {cl.val(L4_JET_granule_ID)}")
 
-        L3T_JET_directory = runconfig.L3T_JET_directory
-        logger.info(f"L3T JET granule directory: {cl.dir(L3T_JET_directory)}")
-        L3T_JET_zip_filename = runconfig.L3T_JET_zip_filename
-        logger.info(f"L3T JET zip file: {cl.file(L3T_JET_zip_filename)}")
-        L3T_JET_browse_filename = runconfig.L3T_JET_browse_filename
-        logger.info(f"L3T JET preview: {cl.file(L3T_JET_browse_filename)}")
+        L4_JET_directory = runconfig.L4_JET_directory
+        logger.info(f"L4 JET granule directory: {cl.dir(L4_JET_directory)}")
+        L4_JET_zip_filename = runconfig.L4_JET_zip_filename
+        logger.info(f"L4 JET zip file: {cl.file(L4_JET_zip_filename)}")
+        L4_JET_browse_filename = runconfig.L4_JET_browse_filename
+        logger.info(f"L4 JET preview: {cl.file(L4_JET_browse_filename)}")
 
-        L3T_BESS_directory = runconfig.L3T_BESS_directory
-        logger.info(f"L3T BESS granule directory: {cl.dir(L3T_BESS_directory)}")
-        L3T_BESS_zip_filename = runconfig.L3T_BESS_zip_filename
-        logger.info(f"L3T BESS zip file: {cl.file(L3T_BESS_zip_filename)}")
-        L3T_BESS_browse_filename = runconfig.L3T_BESS_browse_filename
-        logger.info(f"L3T BESS preview: {cl.file(L3T_BESS_browse_filename)}")
+        L4_BESS_directory = runconfig.L4_BESS_directory
+        logger.info(f"L4 BESS granule directory: {cl.dir(L4_BESS_directory)}")
+        L4_BESS_zip_filename = runconfig.L4_BESS_zip_filename
+        logger.info(f"L4 BESS zip file: {cl.file(L4_BESS_zip_filename)}")
+        L4_BESS_browse_filename = runconfig.L4_BESS_browse_filename
+        logger.info(f"L4 BESS preview: {cl.file(L4_BESS_browse_filename)}")
 
-        L3T_MET_directory = runconfig.L3T_MET_directory
-        logger.info(f"L3T MET granule directory: {cl.dir(L3T_MET_directory)}")
-        L3T_MET_zip_filename = runconfig.L3T_MET_zip_filename
-        logger.info(f"L3T MET zip file: {cl.file(L3T_MET_zip_filename)}")
-        L3T_MET_browse_filename = runconfig.L3T_MET_browse_filename
-        logger.info(f"L3T MET preview: {cl.file(L3T_MET_browse_filename)}")
+        L4_MET_directory = runconfig.L4_MET_directory
+        logger.info(f"L4 MET granule directory: {cl.dir(L4_MET_directory)}")
+        L4_MET_zip_filename = runconfig.L4_MET_zip_filename
+        logger.info(f"L4 MET zip file: {cl.file(L4_MET_zip_filename)}")
+        L4_MET_browse_filename = runconfig.L4_MET_browse_filename
+        logger.info(f"L4 MET preview: {cl.file(L4_MET_browse_filename)}")
 
-        L3T_SEB_directory = runconfig.L3T_SEB_directory
-        logger.info(f"L3T SEB granule directory: {cl.dir(L3T_SEB_directory)}")
-        L3T_SEB_zip_filename = runconfig.L3T_SEB_zip_filename
-        logger.info(f"L3T SEB zip file: {cl.file(L3T_SEB_zip_filename)}")
-        L3T_SEB_browse_filename = runconfig.L3T_SEB_browse_filename
-        logger.info(f"L3T SEB preview: {cl.file(L3T_SEB_browse_filename)}")
+        L4_SEB_directory = runconfig.L4_SEB_directory
+        logger.info(f"L4 SEB granule directory: {cl.dir(L4_SEB_directory)}")
+        L4_SEB_zip_filename = runconfig.L4_SEB_zip_filename
+        logger.info(f"L4 SEB zip file: {cl.file(L4_SEB_zip_filename)}")
+        L4_SEB_browse_filename = runconfig.L4_SEB_browse_filename
+        logger.info(f"L4 SEB preview: {cl.file(L4_SEB_browse_filename)}")
 
-        L3T_SM_directory = runconfig.L3T_SM_directory
-        logger.info(f"L3T SM granule directory: {cl.dir(L3T_SM_directory)}")
-        L3T_SM_zip_filename = runconfig.L3T_SM_zip_filename
-        logger.info(f"L3T SM zip file: {cl.file(L3T_SM_zip_filename)}")
-        L3T_SM_browse_filename = runconfig.L3T_SM_browse_filename
-        logger.info(f"L3T SM preview: {cl.file(L3T_SM_browse_filename)}")
+        L4_SM_directory = runconfig.L4_SM_directory
+        logger.info(f"L4 SM granule directory: {cl.dir(L4_SM_directory)}")
+        L4_SM_zip_filename = runconfig.L4_SM_zip_filename
+        logger.info(f"L4 SM zip file: {cl.file(L4_SM_zip_filename)}")
+        L4_SM_browse_filename = runconfig.L4_SM_browse_filename
+        logger.info(f"L4 SM preview: {cl.file(L4_SM_browse_filename)}")
 
         L4T_ESI_granule_ID = runconfig.L4T_ESI_granule_ID
         logger.info(f"L4T ESI PT-JPL granule ID: {cl.val(L4T_ESI_granule_ID)}")
@@ -906,14 +906,14 @@ def L3T_L4T_JET(
         logger.info(f"L4T WUE preview: {cl.file(L4T_WUE_browse_filename)}")
 
         required_files = [
-            L3T_JET_zip_filename,
-            L3T_JET_browse_filename,
-            L3T_MET_zip_filename,
-            L3T_MET_browse_filename,
-            L3T_SEB_zip_filename,
-            L3T_SEB_browse_filename,
-            L3T_SM_zip_filename,
-            L3T_SM_browse_filename,
+            L4_JET_zip_filename,
+            L4_JET_browse_filename,
+            L4_MET_zip_filename,
+            L4_MET_browse_filename,
+            L4_SEB_zip_filename,
+            L4_SEB_browse_filename,
+            L4_SM_zip_filename,
+            L4_SM_browse_filename,
             L4T_ESI_zip_filename,
             L4T_ESI_browse_filename,
             L4T_WUE_zip_filename,
@@ -930,7 +930,7 @@ def L3T_L4T_JET(
                 some_files_missing = True
 
         if not some_files_missing:
-            logger.info("L3T_L4T_JET output already found")
+            logger.info("L4_JET output already found")
             return SUCCESS_EXIT_CODE
 
         logger.info(f"working_directory: {cl.dir(working_directory)}")
@@ -978,8 +978,8 @@ def L3T_L4T_JET(
 
         metadata = L2T_STARS_granule.metadata_dict
         metadata["StandardMetadata"]["PGEVersion"] = PGEVersion
-        metadata["StandardMetadata"]["PGEName"] = "L3T_L4T_JET"
-        metadata["StandardMetadata"]["ProcessingLevelID"] = "L3T"
+        metadata["StandardMetadata"]["PGEName"] = "L4_JET"
+        metadata["StandardMetadata"]["ProcessingLevelID"] = "L4"
         metadata["StandardMetadata"]["SISName"] = "Level 3 Product Specification Document"
         metadata["StandardMetadata"]["SISVersion"] = "Preliminary"
         metadata["StandardMetadata"]["AncillaryInputPointer"] = "AncillaryNWP"
@@ -1614,11 +1614,11 @@ def L3T_L4T_JET(
             np.nanstd([np.array(LE_PTJPLSM), np.array(LE_BESS), np.array(LE_MOD16), np.array(LE_STIC)], axis=0),
             geometry=geometry).mask(~water)
 
-        if exists(L3T_JET_zip_filename):
-            logger.info(f"found L3T PT-JPL file: {L3T_JET_zip_filename}")
+        if exists(L4_JET_zip_filename):
+            logger.info(f"found L4 PT-JPL file: {L4_JET_zip_filename}")
 
-        L3T_JET_granule = L3TJET(
-            product_location=L3T_JET_directory,
+        L4_JET_granule = L4JET(
+            product_location=L4_JET_directory,
             orbit=orbit,
             scene=scene,
             tile=tile,
@@ -1643,45 +1643,45 @@ def L3T_L4T_JET(
         PTJPLSMsoil.nodata = np.nan
         PTJPLSMinterception.nodata = np.nan
 
-        L3T_JET_granule.add_layer("STICinst", LE_STIC.astype(np.float32), cmap=ET_COLORMAP)
-        L3T_JET_granule.add_layer("PTJPLSMinst", LE_PTJPLSM.astype(np.float32), cmap=ET_COLORMAP)
-        L3T_JET_granule.add_layer("BESSinst", LE_BESS.astype(np.float32), cmap=ET_COLORMAP)
-        L3T_JET_granule.add_layer("MOD16inst", LE_MOD16.astype(np.float32), cmap=ET_COLORMAP)
-        L3T_JET_granule.add_layer("ETdaily", ET_daily_kg.astype(np.float32), cmap=ET_COLORMAP)
-        L3T_JET_granule.add_layer("ETinstUncertainty", ETinstUncertainty.astype(np.float32), cmap="jet")
-        L3T_JET_granule.add_layer("PTJPLSMcanopy", PTJPLSMcanopy.astype(np.float32), cmap=ET_COLORMAP)
-        L3T_JET_granule.add_layer("STICcanopy", STICcanopy.astype(np.float32), cmap=ET_COLORMAP)
-        L3T_JET_granule.add_layer("PTJPLSMsoil", PTJPLSMsoil.astype(np.float32), cmap=ET_COLORMAP)
-        L3T_JET_granule.add_layer("PTJPLSMinterception", PTJPLSMinterception.astype(np.float32), cmap=ET_COLORMAP)
-        L3T_JET_granule.add_layer("water", water.astype(np.uint8), cmap=WATER_COLORMAP)
-        L3T_JET_granule.add_layer("cloud", cloud.astype(np.uint8), cmap=CLOUD_COLORMAP)
+        L4_JET_granule.add_layer("STICinst", LE_STIC.astype(np.float32), cmap=ET_COLORMAP)
+        L4_JET_granule.add_layer("PTJPLSMinst", LE_PTJPLSM.astype(np.float32), cmap=ET_COLORMAP)
+        L4_JET_granule.add_layer("BESSinst", LE_BESS.astype(np.float32), cmap=ET_COLORMAP)
+        L4_JET_granule.add_layer("MOD16inst", LE_MOD16.astype(np.float32), cmap=ET_COLORMAP)
+        L4_JET_granule.add_layer("ETdaily", ET_daily_kg.astype(np.float32), cmap=ET_COLORMAP)
+        L4_JET_granule.add_layer("ETinstUncertainty", ETinstUncertainty.astype(np.float32), cmap="jet")
+        L4_JET_granule.add_layer("PTJPLSMcanopy", PTJPLSMcanopy.astype(np.float32), cmap=ET_COLORMAP)
+        L4_JET_granule.add_layer("STICcanopy", STICcanopy.astype(np.float32), cmap=ET_COLORMAP)
+        L4_JET_granule.add_layer("PTJPLSMsoil", PTJPLSMsoil.astype(np.float32), cmap=ET_COLORMAP)
+        L4_JET_granule.add_layer("PTJPLSMinterception", PTJPLSMinterception.astype(np.float32), cmap=ET_COLORMAP)
+        L4_JET_granule.add_layer("water", water.astype(np.uint8), cmap=WATER_COLORMAP)
+        L4_JET_granule.add_layer("cloud", cloud.astype(np.uint8), cmap=CLOUD_COLORMAP)
 
         percent_good_quality = 100 * (1 - np.count_nonzero(np.isnan(LE_PTJPLSM)) / LE_PTJPLSM.size)
         metadata["ProductMetadata"]["QAPercentGoodQuality"] = percent_good_quality
 
-        metadata["StandardMetadata"]["LocalGranuleID"] = basename(L3T_JET_zip_filename)
+        metadata["StandardMetadata"]["LocalGranuleID"] = basename(L4_JET_zip_filename)
         metadata["StandardMetadata"]["SISName"] = "Level 3/4 JET Product Specification Document"
 
-        short_name = L3T_JET_SHORT_NAME
-        logger.info(f"L3T JET short name: {cl.name(short_name)}")
+        short_name = L4_JET_SHORT_NAME
+        logger.info(f"L4 JET short name: {cl.name(short_name)}")
         metadata["StandardMetadata"]["ShortName"] = short_name
 
-        long_name = L3T_JET_LONG_NAME
-        logger.info(f"L3T JET long name: {cl.name(long_name)}")
+        long_name = L4_JET_LONG_NAME
+        logger.info(f"L4 JET long name: {cl.name(long_name)}")
         metadata["StandardMetadata"]["LongName"] = long_name
 
         metadata["StandardMetadata"]["ProcessingLevelDescription"] = "Level 3 Tiled Evapotranspiration Ensemble"
 
-        L3T_JET_granule.write_metadata(metadata)
-        logger.info(f"writing L3T JET product zip: {cl.file(L3T_JET_zip_filename)}")
-        L3T_JET_granule.write_zip(L3T_JET_zip_filename)
-        logger.info(f"writing L3T JET browse image: {cl.file(L3T_JET_browse_filename)}")
-        L3T_JET_granule.write_browse_image(PNG_filename=L3T_JET_browse_filename, cmap=ET_COLORMAP)
-        logger.info(f"removing L3T JET tile granule directory: {cl.dir(L3T_JET_directory)}")
-        shutil.rmtree(L3T_JET_directory)
+        L4_JET_granule.write_metadata(metadata)
+        logger.info(f"writing L4 JET product zip: {cl.file(L4_JET_zip_filename)}")
+        L4_JET_granule.write_zip(L4_JET_zip_filename)
+        logger.info(f"writing L4 JET browse image: {cl.file(L4_JET_browse_filename)}")
+        L4_JET_granule.write_browse_image(PNG_filename=L4_JET_browse_filename, cmap=ET_COLORMAP)
+        logger.info(f"removing L4 JET tile granule directory: {cl.dir(L4_JET_directory)}")
+        shutil.rmtree(L4_JET_directory)
 
-        L3T_MET_granule = L3TMET(
-            product_location=L3T_MET_directory,
+        L4_MET_granule = L4MET(
+            product_location=L4_MET_directory,
             orbit=orbit,
             scene=scene,
             tile=tile,
@@ -1690,37 +1690,37 @@ def L3T_L4T_JET(
             process_count=product_counter
         )
 
-        L3T_MET_granule.add_layer("Ta", Ta_C.astype(np.float32), cmap="jet")
-        L3T_MET_granule.add_layer("RH", RH.astype(np.float32), cmap=RH_COLORMAP)
-        L3T_MET_granule.add_layer("water", water.astype(np.uint8), cmap=WATER_COLORMAP)
-        L3T_MET_granule.add_layer("cloud", cloud.astype(np.uint8), cmap=CLOUD_COLORMAP)
+        L4_MET_granule.add_layer("Ta", Ta_C.astype(np.float32), cmap="jet")
+        L4_MET_granule.add_layer("RH", RH.astype(np.float32), cmap=RH_COLORMAP)
+        L4_MET_granule.add_layer("water", water.astype(np.uint8), cmap=WATER_COLORMAP)
+        L4_MET_granule.add_layer("cloud", cloud.astype(np.uint8), cmap=CLOUD_COLORMAP)
 
         percent_good_quality = 100 * (1 - np.count_nonzero(np.isnan(Ta_C)) / Ta_C.size)
         metadata["ProductMetadata"]["QAPercentGoodQuality"] = percent_good_quality
 
-        metadata["StandardMetadata"]["LocalGranuleID"] = basename(L3T_MET_zip_filename)
+        metadata["StandardMetadata"]["LocalGranuleID"] = basename(L4_MET_zip_filename)
         metadata["StandardMetadata"]["SISName"] = "Level 3/4 JET Product Specification Document"
 
-        short_name = L3T_MET_SHORT_NAME
-        logger.info(f"L3T MET short name: {cl.name(short_name)}")
+        short_name = L4_MET_SHORT_NAME
+        logger.info(f"L4 MET short name: {cl.name(short_name)}")
         metadata["StandardMetadata"]["ShortName"] = short_name
 
-        long_name = L3T_MET_LONG_NAME
-        logger.info(f"L3T MET long name: {cl.name(long_name)}")
+        long_name = L4_MET_LONG_NAME
+        logger.info(f"L4 MET long name: {cl.name(long_name)}")
         metadata["StandardMetadata"]["LongName"] = long_name
 
         metadata["StandardMetadata"]["ProcessingLevelDescription"] = "Level 3 Tiled Meteorology"
 
-        L3T_MET_granule.write_metadata(metadata)
-        logger.info(f"writing L3T MET PT-JPL-MET product zip: {cl.file(L3T_MET_zip_filename)}")
-        L3T_MET_granule.write_zip(L3T_MET_zip_filename)
-        logger.info(f"writing L3T MET PT-JPL-MET browse image: {cl.file(L3T_MET_browse_filename)}")
-        L3T_MET_granule.write_browse_image(PNG_filename=L3T_MET_browse_filename, cmap="jet")
-        logger.info(f"removing L3T MET PT-JPL-MET tile granule directory: {cl.dir(L3T_MET_directory)}")
-        shutil.rmtree(L3T_MET_directory)
+        L4_MET_granule.write_metadata(metadata)
+        logger.info(f"writing L4 MET PT-JPL-MET product zip: {cl.file(L4_MET_zip_filename)}")
+        L4_MET_granule.write_zip(L4_MET_zip_filename)
+        logger.info(f"writing L4 MET PT-JPL-MET browse image: {cl.file(L4_MET_browse_filename)}")
+        L4_MET_granule.write_browse_image(PNG_filename=L4_MET_browse_filename, cmap="jet")
+        logger.info(f"removing L4 MET PT-JPL-MET tile granule directory: {cl.dir(L4_MET_directory)}")
+        shutil.rmtree(L4_MET_directory)
 
-        L3T_SEB_granule = L3TSEB(
-            product_location=L3T_SEB_directory,
+        L4_SEB_granule = L4SEB(
+            product_location=L4_SEB_directory,
             orbit=orbit,
             scene=scene,
             tile=tile,
@@ -1729,53 +1729,53 @@ def L3T_L4T_JET(
             process_count=product_counter
         )
 
-        L3T_SEB_granule.add_layer("Rg", SWin.astype(np.float32), cmap="jet")
+        L4_SEB_granule.add_layer("Rg", SWin.astype(np.float32), cmap="jet")
 
         # temporary diagnostics
         if include_SEB_diagnostics:
-            L3T_SEB_granule.add_layer("Rg_FLiES_ANN", SWin_FLiES_ANN.astype(np.float32), cmap="jet")
-            L3T_SEB_granule.add_layer("Rg_FLiES_LUT", SWin_FLiES_LUT.astype(np.float32), cmap="jet")
-            L3T_SEB_granule.add_layer("Rg_GEOS5FP", SWin_GEOS5FP.astype(np.float32), cmap="jet")
+            L4_SEB_granule.add_layer("Rg_FLiES_ANN", SWin_FLiES_ANN.astype(np.float32), cmap="jet")
+            L4_SEB_granule.add_layer("Rg_FLiES_LUT", SWin_FLiES_LUT.astype(np.float32), cmap="jet")
+            L4_SEB_granule.add_layer("Rg_GEOS5FP", SWin_GEOS5FP.astype(np.float32), cmap="jet")
 
-        L3T_SEB_granule.add_layer("Rn", Rn.astype(np.float32), cmap="jet")
-        L3T_SEB_granule.add_layer("Rg", SWin_FLiES_ANN.astype(np.float32), cmap="jet")
-        L3T_SEB_granule.add_layer("water", water.astype(np.uint8), cmap=WATER_COLORMAP)
-        L3T_SEB_granule.add_layer("cloud", cloud.astype(np.uint8), cmap=CLOUD_COLORMAP)
+        L4_SEB_granule.add_layer("Rn", Rn.astype(np.float32), cmap="jet")
+        L4_SEB_granule.add_layer("Rg", SWin_FLiES_ANN.astype(np.float32), cmap="jet")
+        L4_SEB_granule.add_layer("water", water.astype(np.uint8), cmap=WATER_COLORMAP)
+        L4_SEB_granule.add_layer("cloud", cloud.astype(np.uint8), cmap=CLOUD_COLORMAP)
 
         # temporary diagnostics
         if include_SEB_diagnostics:
-            # L3T_SEB_granule.add_layer("Rn_BESS", Rn_BESS.astype(np.float32), cmap="jet")
-            L3T_SEB_granule.add_layer("Rn", Rn_verma.astype(np.float32), cmap="jet")
+            # L4_SEB_granule.add_layer("Rn_BESS", Rn_BESS.astype(np.float32), cmap="jet")
+            L4_SEB_granule.add_layer("Rn", Rn_verma.astype(np.float32), cmap="jet")
 
-        L3T_SEB_granule.add_layer("water", water.astype(np.uint8), cmap=WATER_COLORMAP)
-        # L3T_SEB_granule.add_layer("Rn_BESS", Rn_BESS.astype(np.float32), cmap="jet")
+        L4_SEB_granule.add_layer("water", water.astype(np.uint8), cmap=WATER_COLORMAP)
+        # L4_SEB_granule.add_layer("Rn_BESS", Rn_BESS.astype(np.float32), cmap="jet")
 
         percent_good_quality = 100 * (1 - np.count_nonzero(np.isnan(Rn)) / Rn.size)
         metadata["ProductMetadata"]["QAPercentGoodQuality"] = percent_good_quality
 
-        metadata["StandardMetadata"]["LocalGranuleID"] = basename(L3T_SEB_zip_filename)
+        metadata["StandardMetadata"]["LocalGranuleID"] = basename(L4_SEB_zip_filename)
         metadata["StandardMetadata"]["SISName"] = "Level 3/4 JET Product Specification Document"
 
-        short_name = L3T_SEB_SHORT_NAME
-        logger.info(f"L3T SEB short name: {cl.name(short_name)}")
+        short_name = L4_SEB_SHORT_NAME
+        logger.info(f"L4 SEB short name: {cl.name(short_name)}")
         metadata["StandardMetadata"]["ShortName"] = short_name
 
-        long_name = L3T_SEB_LONG_NAME
-        logger.info(f"L3T SEB long name: {cl.name(long_name)}")
+        long_name = L4_SEB_LONG_NAME
+        logger.info(f"L4 SEB long name: {cl.name(long_name)}")
         metadata["StandardMetadata"]["LongName"] = long_name
 
         metadata["StandardMetadata"]["ProcessingLevelDescription"] = "Level 3 Tiled Surface Energy Balance"
 
-        L3T_SEB_granule.write_metadata(metadata)
-        logger.info(f"writing L3T SEB product zip: {cl.file(L3T_SEB_zip_filename)}")
-        L3T_SEB_granule.write_zip(L3T_SEB_zip_filename)
-        logger.info(f"writing L3T SEB browse image: {cl.file(L3T_SEB_browse_filename)}")
-        L3T_SEB_granule.write_browse_image(PNG_filename=L3T_SEB_browse_filename, cmap="jet")
-        logger.info(f"removing L3T SEB tile granule directory: {cl.dir(L3T_SEB_directory)}")
-        shutil.rmtree(L3T_SEB_directory)
+        L4_SEB_granule.write_metadata(metadata)
+        logger.info(f"writing L4 SEB product zip: {cl.file(L4_SEB_zip_filename)}")
+        L4_SEB_granule.write_zip(L4_SEB_zip_filename)
+        logger.info(f"writing L4 SEB browse image: {cl.file(L4_SEB_browse_filename)}")
+        L4_SEB_granule.write_browse_image(PNG_filename=L4_SEB_browse_filename, cmap="jet")
+        logger.info(f"removing L4 SEB tile granule directory: {cl.dir(L4_SEB_directory)}")
+        shutil.rmtree(L4_SEB_directory)
 
-        L3T_SM_granule = L3TSM(
-            product_location=L3T_SM_directory,
+        L4_SM_granule = L4SM(
+            product_location=L4_SM_directory,
             orbit=orbit,
             scene=scene,
             tile=tile,
@@ -1784,32 +1784,32 @@ def L3T_L4T_JET(
             process_count=product_counter
         )
 
-        L3T_SM_granule.add_layer("SM", SM.astype(np.float32), cmap=SM_COLORMAP)
-        L3T_SM_granule.add_layer("water", water.astype(np.uint8), cmap=WATER_COLORMAP)
-        L3T_SM_granule.add_layer("cloud", cloud.astype(np.uint8), cmap=CLOUD_COLORMAP)
+        L4_SM_granule.add_layer("SM", SM.astype(np.float32), cmap=SM_COLORMAP)
+        L4_SM_granule.add_layer("water", water.astype(np.uint8), cmap=WATER_COLORMAP)
+        L4_SM_granule.add_layer("cloud", cloud.astype(np.uint8), cmap=CLOUD_COLORMAP)
 
         percent_good_quality = 100 * (1 - np.count_nonzero(np.isnan(SM)) / SM.size)
         metadata["ProductMetadata"]["QAPercentGoodQuality"] = percent_good_quality
 
-        metadata["StandardMetadata"]["LocalGranuleID"] = basename(L3T_SM_zip_filename)
+        metadata["StandardMetadata"]["LocalGranuleID"] = basename(L4_SM_zip_filename)
         metadata["StandardMetadata"]["SISName"] = "Level 3/4 PT-JPL Product Specification Document"
 
-        short_name = L3T_SM_SHORT_NAME
-        logger.info(f"L3T SM short name: {cl.name(short_name)}")
+        short_name = L4_SM_SHORT_NAME
+        logger.info(f"L4 SM short name: {cl.name(short_name)}")
         metadata["StandardMetadata"]["ShortName"] = short_name
 
-        long_name = L3T_SM_LONG_NAME
-        logger.info(f"L3T SM long name: {cl.name(long_name)}")
+        long_name = L4_SM_LONG_NAME
+        logger.info(f"L4 SM long name: {cl.name(long_name)}")
         metadata["StandardMetadata"]["LongName"] = long_name
 
         metadata["StandardMetadata"]["ProcessingLevelDescription"] = "Level 3 Tiled Soil Moisture"
-        L3T_SM_granule.write_metadata(metadata)
-        logger.info(f"writing L3T SM product zip: {cl.file(L3T_SM_zip_filename)}")
-        L3T_SM_granule.write_zip(L3T_SM_zip_filename)
-        logger.info(f"writing L3T SM browse image: {cl.file(L3T_SM_browse_filename)}")
-        L3T_SM_granule.write_browse_image(PNG_filename=L3T_SM_browse_filename, cmap=SM_COLORMAP)
-        logger.info(f"removing L3T SM tile granule directory: {cl.dir(L3T_SM_directory)}")
-        shutil.rmtree(L3T_SM_directory)
+        L4_SM_granule.write_metadata(metadata)
+        logger.info(f"writing L4 SM product zip: {cl.file(L4_SM_zip_filename)}")
+        L4_SM_granule.write_zip(L4_SM_zip_filename)
+        logger.info(f"writing L4 SM browse image: {cl.file(L4_SM_browse_filename)}")
+        L4_SM_granule.write_browse_image(PNG_filename=L4_SM_browse_filename, cmap=SM_COLORMAP)
+        logger.info(f"removing L4 SM tile granule directory: {cl.dir(L4_SM_directory)}")
+        shutil.rmtree(L4_SM_directory)
 
         if exists(L4T_ESI_zip_filename):
             logger.info(f"found L4T ESI file: {L4T_ESI_zip_filename}")
@@ -1909,7 +1909,7 @@ def L3T_L4T_JET(
         logger.info(f"removing L4T WUE tile granule directory: {cl.dir(L4T_WUE_directory)}")
         shutil.rmtree(L4T_WUE_directory)
 
-        logger.info(f"finished L3T L4T JET run in {cl.time(timer)} seconds")
+        logger.info(f"finished L4 JET run in {cl.time(timer)} seconds")
 
     except (BlankOutput, BlankOutputError) as exception:
         logger.exception(exception)
@@ -1928,8 +1928,8 @@ def L3T_L4T_JET(
 
 def main(argv=sys.argv):
     if len(argv) == 1 or "--version" in argv:
-        print(f"L3T_L4T_JET PGE ({ECOSTRESS.PGEVersion})")
-        print(f"usage: L3T_L4T_JET RunConfig.xml")
+        print(f"L4_JET PGE ({ECOSTRESS.PGEVersion})")
+        print(f"usage: L4_JET RunConfig.xml")
 
         if "--version" in argv:
             return SUCCESS_EXIT_CODE
@@ -1941,14 +1941,14 @@ def main(argv=sys.argv):
     show_distribution = "--show-distribution" in argv
     runconfig_filename = str(argv[1])
 
-    exit_code = L3T_L4T_JET(
+    exit_code = L4_JET(
         runconfig_filename=runconfig_filename,
         strip_console=strip_console,
         save_intermediate=save_intermediate,
         show_distribution=show_distribution
     )
 
-    logger.info(f"L3T_L4T_JET exit code: {exit_code}")
+    logger.info(f"L4_JET exit code: {exit_code}")
 
     return exit_code
 
