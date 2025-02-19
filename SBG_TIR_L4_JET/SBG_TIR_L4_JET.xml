@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<input xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:xalan="http://xml.apache.org/xslt"
+       xmlns:cas="http://oodt.jpl.nasa.gov/1.0/cas"
+       xsi:noNamespaceSchemaLocation="">
+    <group name="LogMetadata">
+        <vector name="CommandLineParameters">
+            <element>executable_filename</element>
+            <element>runconfig_filename</element>
+            <element>log_filename</element>
+        </vector>
+    </group>
+    <group name="JobIdentification">
+        <scalar name="ProductionLocation">ECOSTRESS Science Computing Facility</scalar>
+        <scalar name="TaskId">urn:ecostress:L2GL2TLSTETask</scalar>
+        <scalar name="ProcessingNode">processing_node</scalar>
+        <scalar name="ProductionDateTime">production_datetime</scalar>
+        <scalar name="JobId">job_ID</scalar>
+        <scalar name="WorkflowInstanceId">instance_ID</scalar>
+    </group>
+    <group name="InputFileGroup">
+        <scalar name="L2T_LSTE">L2T_LSTE_filename</scalar>
+        <scalar name="L2T_STARS">L2T_STARS_filename</scalar>
+    </group>
+    <group name="StaticAncillaryFileGroup">
+        <scalar name="L3T_L4T_STATIC">static_directory</scalar>
+        <scalar name="L3T_L4T_SRTM">SRTM_directory</scalar>
+        <scalar name="L3T_L4T_JET_SOURCES">sources_directory</scalar>
+        <scalar name="L3T_L4T_JET_WORKING">working_directory</scalar>
+    </group>
+    <group name="PrimaryExecutable">
+        <scalar name="BuildID">build_ID</scalar>
+        <scalar name="FullPathname">executable_filename</scalar>
+    </group>
+    <group name="Geometry">
+        <scalar name="TileId">tile_ID</scalar>
+        <scalar name="SceneId">scene_ID</scalar>
+        <scalar name="OrbitNumber">orbit_number</scalar>
+    </group>
+    <group name="ProductPathGroup">
+        <scalar name="ProductCounter">product_counter</scalar>
+        <scalar name="ProductPath">output_directory</scalar>
+    </group>
+    <group name="PGENameGroup">
+        <scalar name="PGEName">L3T_L4T_PTJPL_PGE</scalar>
+    </group>
+</input>
