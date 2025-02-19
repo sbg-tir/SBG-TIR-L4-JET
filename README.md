@@ -27,7 +27,7 @@ This software will produce estimates of:
 - evaporative stress index (ESI)
 - water use efficiency (WUE)
 
-Evapotranspiration (ET) is one of the main science outputs from the Surface Biology and Geology (SBG) Mission. ET is a Level-4 (L4) product constructed from a combination of the SBG Level-2 (L2) Land Surface Temperature (LST) product and auxiliary data sources. Accurate modelling of ET requires consideration of many environmental and biological controls including: incoming radiation, the atmospheric water vapor deficit, soil water availability, vegetation physiology and phenology (Brutsaert, 1982; Monteith, 1965; Penman, 1948). Scientists develop models that ingest global satellite observations to capture these environmental and biological controls on ET. LST holds the unique ability to capture when and where plants experience stress, as observed by elevated temperatures which can idenitfy areas that have a reduced capacity to evaporate or transpire water to the atmosphere (Allen et al., 2007). The SBG evapotranspiration product combines the [surface temperature and emissivity observations from the OTTER sensor](https://github.com/sbg-tir/SBG-TIR-L2-LSTE) with the [NDVI and albedo estimated by STARS](https://github.com/sbg-tir/SBG-TIR-L2-STARS), estimates near-surface meteorology by downscaling GEOS-5 FP to these three high resolution images, and runs these variables through a set of surface energy balance models.
+Evapotranspiration (ET) is one of the main science outputs from the Surface Biology and Geology (SBG) Mission. ET is a Level-4 (L4) product constructed from a combination of the SBG Level-2 (L2) Land Surface Temperature & Emissivity (LSTE) product and auxiliary data sources. Accurate modelling of ET requires consideration of many environmental and biological controls including: solar radiation, the atmospheric water vapor deficit, soil water availability, vegetation physiology and phenology (Brutsaert, 1982; Monteith, 1965; Penman, 1948). Scientists develop models that ingest global satellite observations to capture these environmental and biological controls on ET. LST holds the unique ability to capture when and where plants experience stress, as observed by elevated temperatures which can idenitfy areas that have a reduced capacity to evaporate or transpire water to the atmosphere (Allen et al., 2007). The SBG evapotranspiration product combines the [surface temperature and emissivity observations from the OTTER sensor](https://github.com/sbg-tir/SBG-TIR-L2-LSTE) with the [NDVI and albedo estimated by STARS](https://github.com/sbg-tir/SBG-TIR-L2-STARS), estimates near-surface meteorology by downscaling GEOS-5 FP to these three high resolution images, and runs these variables through a set of surface energy balance models.
 
 The repositories for the evapotranspiration algorithms are located in the [JPL-Evapotranspiration-Algorithms](https://github.com/JPL-Evapotranspiration-Algorithms) organization.
 
@@ -35,11 +35,73 @@ The repositories for the evapotranspiration algorithms are located in the [JPL-E
 
 ### 2.1. Metadata
 
-SBG-TIR standards incorporate additional metadata that describe each GeoTIFF Dataset within the GeoTIFF file. Each of these metadata elements appear in an GeoTIFF Attribute that is directly associated with the GeoTIFF Dataset. Wherever possible, these GeoTIFF Attributes employ names that conform to the Climate and Forecast (CF) conventions. 
-
-Each SBG product bundle contains two sets of product metadata:
--   ProductMetadata
--   StandardMetadata
+Metadata for the ECOSTRESS Collection 3 tiled products is provided in JSON format:
+```
+{
+  "StandardMetadata": {
+    "AncillaryInputPointer": "AncillaryNWP",
+    "AutomaticQualityFlag": "PASS",
+    "AutomaticQualityFlagExplanation": "Image matching performed to correct orbit ephemeris/attitude",
+    "BuildID": "0100",
+    "CRS": "+proj=utm +zone=11 +datum=WGS84 +units=m +no_defs +type=crs",
+    "CampaignShortName": "Primary",
+    "CollectionLabel": "SBGv001",
+    "DataFormatType": "COG",
+    "DayNightFlag": "Day",
+    "EastBoundingCoordinate": -114.74406148409601,
+    "ImageLineSpacing": 70.0,
+    "ImageLines": 1568,
+    "ImagePixelSpacing": 70.0,
+    "ImagePixels": 1568,
+    "InputPointer": "SBGv001_L2_LSTE_21485_013_20220420T211350_0601_02.h5,ECOSTRESS_L2_CLOUD_21485_013_20220420T211350_0601_02.h5,SBGv001_L1B_GEO_21485_013_20220420T211350_0601_01.h5,SBGv001_L1B_RAD_21485_013_20220420T211350_0601_01.h5",
+    "InstrumentShortName": "SBG",
+    "LocalGranuleID": "ECOv002_L3T_JET_21485_013_11SPS_20220420T211350_0700_01.zip",
+    "LongName": "SBG Tiled Evapotranspiration Ensemble Instantaneous and Daytime L3 Global 70 m",
+    "NorthBoundingCoordinate": 33.43490918842431,
+    "PGEName": "L3T_L4T_JET",
+    "PGEVersion": "v1.10.12",
+    "PlatformLongName": "ISS",
+    "PlatformShortName": "ISS",
+    "PlatformType": "Spacecraft",
+    "ProcessingEnvironment": "Linux eco-p44.tir 3.10.0-1160.45.1.el7.x86_64 #1 SMP Wed Oct 13 17:20:51 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux",
+    "ProcessingLevelDescription": "Level 4 Tiled Evapotranspiration Ensemble",
+    "ProcessingLevelID": "L3T",
+    "ProducerAgency": "JPL",
+    "ProducerInstitution": "Caltech",
+    "ProductionDateTime": "2022-04-22T10:47:36.452Z",
+    "ProductionLocation": "SBG Science Computing Facility",
+    "RangeBeginningDate": "2022-04-20",
+    "RangeBeginningTime": "21:13:51.290937",
+    "RangeEndingDate": "2022-04-20",
+    "RangeEndingTime": "21:18:51.290937",
+    "RegionID": "11SPS",
+    "SISName": "Level 4 JET Product Specification Document",
+    "SISVersion": "Preliminary",
+    "SceneBoundaryLatLonWKT": "POLYGON ((-118.30553175600564 30.910805591562212, -115.4606649798732 33.891051544444885, -112.80123658401774 31.518067522267156, -115.65618262396845 28.61321628442961, -118.30553175600564 30.910805591562212))",
+    "SceneID": "13",
+    "ShortName": "SBG_L4T_JET",
+    "SouthBoundingCoordinate": 32.42972726825087,
+    "StartOrbitNumber": "21485",
+    "StopOrbitNumber": "21485",
+    "WestBoundingCoordinate": -115.9361545299493
+  },
+  "ProductMetadata": {
+    "BandSpecification": [
+      0.0,
+      0.0,
+      8.779999732971191,
+      0.0,
+      10.520000457763672,
+      12.0
+    ],
+    "NumberOfBands": 3,
+    "OrbitCorrectionPerformed": "True",
+    "QAPercentCloudCover": 0.009151460329029571,
+    "QAPercentGoodQuality": 98.34781568877551,
+    "AuxiliaryNWP": "GEOS.fp.asm.inst3_2d_asm_Nx.20220420_2100.V01.nc4,GEOS.fp.asm.inst3_2d_asm_Nx.20220421_0000.V01.nc4,GEOS.fp.asm.tavg1_2d_lnd_Nx.20220420_2030.V01.nc4,GEOS.fp.asm.tavg1_2d_lnd_Nx.20220420_2130.V01.nc4,GEOS.fp.asm.tavg1_2d_rad_Nx.20220420_2030.V01.nc4,GEOS.fp.asm.tavg1_2d_rad_Nx.20220420_2130.V01.nc4,GEOS.fp.asm.tavg1_2d_slv_Nx.20220420_2030.V01.nc4,GEOS.fp.asm.tavg1_2d_slv_Nx.20220420_2130.V01.nc4,GEOS.fp.asm.tavg3_2d_aer_Nx.20220420_1930.V01.nc4,GEOS.fp.asm.tavg3_2d_aer_Nx.20220420_2230.V01.nc4,GEOS.fp.asm.tavg3_2d_chm_Nx.20220420_1930.V01.nc4,GEOS.fp.asm.tavg3_2d_chm_Nx.20220420_2230.V01.nc4"
+  }
+}
+```
 
 #### 2.1.1. Standard Metadata
 Information on the `StandardMetadata` is included on the [SBG-TIR github landing page](https://github.com/sbg-tir)
@@ -261,7 +323,7 @@ In addition to the standard product, there will also be a low latency (< 24 hour
 
 ## 3. Theory
 
-The JPL EvapoTranspiration (ET) data ensemble provides a robust estimation of ET from multiple ET models. The ET ensemble incorporates ET data from four algorithms: Priestley Taylor-Jet Propulsion Laboratory model with soil moisture (PT-JPLSM), the Penman Monteith MODIS Global Evapotranspiration Model (MOD16), Soil Temperature Initiated Closure (STIC) model, and the Breathing Earth System Simulator (BESS) model. We present descriptions of these models here, inherited from the ECOSTRESS mission, as candidates for SBG L3 evapotranspiration processing.
+The JPL evapotranspiration (JET) data ensemble provides a robust estimation of ET from multiple ET models. The ET ensemble incorporates ET data from four algorithms: Priestley Taylor-Jet Propulsion Laboratory model with soil moisture (PT-JPLSM), the Penman Monteith MODIS Global Evapotranspiration Model (MOD16), Soil Temperature Initiated Closure (STIC) model, and the Breathing Earth System Simulator (BESS) model. We present descriptions of these models here, inherited from the ECOSTRESS mission, as candidates for SBG L4 evapotranspiration processing.
 
 ## 4. Uncertainty Analysis
 
@@ -273,7 +335,7 @@ TBD
 
 #### Acknowledgements 
 
-We would like to thank Joshua Fisher as the initial science lead of the SBG mission and PI of the ROSES project to re-design the SBG products.
+We would like to thank Joshua Fisher as the initial science lead of the ECOSTRESS mission and PI of the ROSES project to re-design the ECOSTRESS products.
 
 We would like to thank Adam Purdy for contributing the PT-JPL-SM model.
 
@@ -281,6 +343,9 @@ We would like to thank Kaniska Mallick for contributing the STIC model.
 
 We would like to thank Martha Anderson for contributing the DisALEXI-JPL algorithm.
 
-####  Bibliography 
+## References
 
-Schaaf, C. (2017). *VIIRS BRDF, Albedo, and NBAR Product Algorithm Theoretical Basis Document (ATBD).* NASA Goddard Space Flight Center.
+- Brutsaert, W. (1982). *Evaporation into the Atmosphere: Theory, History, and Applications*. Springer Netherlands. https://doi.org/10.1007/978-94-017-1497-6
+- Monteith, J.L. (1965). "Evaporation and Environment." *Symposia of the Society for Experimental Biology*, 19, 205-234.
+- Penman, H.L. (1948). "Natural Evaporation from Open Water, Bare Soil and Grass." *Proceedings of the Royal Society of London. Series A, Mathematical and Physical Sciences*, 193(1032), 120-145. https://doi.org/10.1098/rspa.1948.0037
+- Allen, R.G., Tasumi, M., & Trezza, R. (2007). "Satellite-based energy balance for mapping evapotranspiration with internalized calibration (METRIC)—Model." *Journal of Irrigation and Drainage Engineering*, 133(4), 380-394. https://doi.org/10.1061/(ASCE)0733-9437(2007)133:4(380)
