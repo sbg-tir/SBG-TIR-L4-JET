@@ -21,6 +21,7 @@ dependencies = [
     "ECOv002-CMR>=1.0.5",
     "ECOv002-granules>=1.0.3",
     "FLiESANN>=1.1.2",
+    "FLiESLUT",
     "gedi-canopy-height",
     "geopandas",
     "geos5fp>=1.0.4",
