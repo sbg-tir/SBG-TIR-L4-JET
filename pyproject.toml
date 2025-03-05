@@ -69,7 +69,7 @@ dev = [
 ]
 
 [tool.setuptools.package-data]
-ECOv002_L3T_L4T_JET = ["*.txt"]
+SBG_TIR_L4_JET = ["*.txt"]
 
 [project.urls]
 "Homepage" = "https://github.com/sbg-tir/SBG-TIR-L4-JET"
