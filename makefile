@@ -24,9 +24,6 @@ dist:
 	make build
 	make twine-upload
 
-remove-environment:
-	mamba env remove -y -n rasters
-
 install:
 	pip install -e .[dev]
 
