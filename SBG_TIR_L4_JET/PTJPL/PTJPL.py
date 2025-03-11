@@ -18,7 +18,7 @@ from modisci import MODISCI
 from gedi_canopy_height import GEDICanopyHeight
 from geos5fp import GEOS5FP
 
-from ..BESS import BESS, DEFAULT_DOWNSCALE_AIR, DEFAULT_DOWNSCALE_HUMIDITY, DEFAULT_DOWNSCALE_MOISTURE
+from breathing_earth_system_simulator import BESS, DEFAULT_DOWNSCALE_AIR, DEFAULT_DOWNSCALE_HUMIDITY, DEFAULT_DOWNSCALE_MOISTURE
 from ..SRTM import SRTM
 
 __author__ = "Gregory Halverson"

@@ -17,7 +17,7 @@ from geos5fp import GEOS5FP
 from gedi_canopy_height import GEDICanopyHeight
 from soil_capacity_wilting import SoilGrids
 
-from ..BESS import DEFAULT_DOWNSCALE_AIR, DEFAULT_DOWNSCALE_HUMIDITY, DEFAULT_DOWNSCALE_MOISTURE
+from breathing_earth_system_simulator import DEFAULT_DOWNSCALE_AIR, DEFAULT_DOWNSCALE_HUMIDITY, DEFAULT_DOWNSCALE_MOISTURE
 from ..SRTM import SRTM
 from ..PTJPL import PTJPL
 
