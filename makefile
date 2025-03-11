@@ -1,13 +1,47 @@
-DOCKER_IMAGE_NAME = sbg-tir-l4-jet
+PACKAGE_NAME = SBG-TIR-L4-JET
+ENVIRONMENT_NAME = $(PACKAGE_NAME)
+DOCKER_IMAGE_NAME = $(shell echo $(PACKAGE_NAME) | tr '[:upper:]' '[:lower:]')
 
-environment:
-	mamba create -y -n SBG-TIR-L4-JET -c conda-forge python=3.10
+clean:
+	rm -rf *.o *.out *.log
+	rm -rf build/
+	rm -rf dist/
+	rm -rf *.egg-info
+	rm -rf .pytest_cache
+	find . -type d -name "__pycache__" -exec rm -rf {} +
 
-install-package:
+test:
+	pytest
+
+build:
+	python -m build
+
+twine-upload:
+	twine upload dist/*
+
+dist:
+	make clean
+	make build
+	make twine-upload
+
+remove-environment:
+	mamba env remove -y -n rasters
+
+install:
 	pip install -e .[dev]
 
-uninstall-package:
-	pip uninstall ecov003_l3t_l4t_jet
+uninstall:
+	pip uninstall $(PACKAGE_NAME)
+
+reinstall:
+	make uninstall
+	make install
+
+environment:
+	mamba create -y -n $(ENVIRONMENT_NAME) -c conda-forge python=3.10
+
+remove-environment:
+	mamba env remove -y -n $(ENVIRONMENT_NAME)
 
 colima-start:
 	colima start -m 16 -a x86_64 -d 100 
