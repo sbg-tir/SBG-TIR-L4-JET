@@ -21,7 +21,7 @@ from geos5fp import GEOS5FP
 
 from MCD12C1_2019_v006 import load_MCD12C1_IGBP
 
-from ..FLiES import FLiES
+from FLiESANN import FLiES
 # from ..MCD12.MCD12C1 import MCD12C1
 from ..SRTM import SRTM
 from ..model.model import DEFAULT_PREVIEW_QUALITY, DEFAULT_RESAMPLING
