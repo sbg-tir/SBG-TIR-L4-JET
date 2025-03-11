@@ -17,6 +17,7 @@ classifiers = [
 dependencies = [
     "affine",
     "astropy",
+    "breathing-earth-system-simulator",
     "colored_logging",
     "ECOv002-CMR>=1.0.5",
     "ECOv002-granules>=1.0.3",
