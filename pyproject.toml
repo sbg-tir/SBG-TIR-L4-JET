@@ -43,6 +43,7 @@ dependencies = [
     "pyresample",
     "rasterio",
     "rasters>=1.4.6",
+    "SBG-TIR-granules",
     "scikit-image",
     "scikit-learn",
     "scipy",
