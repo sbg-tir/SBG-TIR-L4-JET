@@ -17,7 +17,7 @@ classifiers = [
 dependencies = [
     "affine",
     "astropy",
-    "breathing-earth-system-simulator",
+    "breathing-earth-system-simulator>=1.1.3",
     "colored_logging",
     "ECOv002-CMR>=1.0.5",
     "ECOv002-granules>=1.0.3",
@@ -43,6 +43,7 @@ dependencies = [
     "pyresample",
     "rasterio",
     "rasters>=1.4.6",
+    "SBG-TIR-granules>=0.1.2",
     "scikit-image",
     "scikit-learn",
     "scipy",

@@ -25,10 +25,9 @@ from koppengeiger import load_koppen_geiger
 import FLiESANN
 from geos5fp import GEOS5FP, FailedGEOS5FPDownload
 from sun_angles import calculate_SZA_from_DOY_and_hour
-from SBGv001_granules import L2TLSTE, L2TSTARS, L4JET, L4SM, L4SEB, L4MET, L4TESI, L4TWUE
-from SBGv001_granules import ET_COLORMAP, SM_COLORMAP, WATER_COLORMAP, CLOUD_COLORMAP, RH_COLORMAP, GPP_COLORMAP
+from SBG_TIR_granules import L2TLSTE, L2TSTARS, L4TJET, L4TESI, L4TWUE
+from SBG_TIR_granules import ET_COLORMAP, SM_COLORMAP, WATER_COLORMAP, CLOUD_COLORMAP, RH_COLORMAP, GPP_COLORMAP
 
-from FLiESANN import BlankOutputError
 from FLiESLUT import FLiESLUT
 from breathing_earth_system_simulator import BESS
 
@@ -1618,7 +1617,7 @@ def L4_JET(
         if exists(L4_JET_zip_filename):
             logger.info(f"found L4 PT-JPL file: {L4_JET_zip_filename}")
 
-        L4_JET_granule = L4JET(
+        L4_JET_granule = L4TJET(
             product_location=L4_JET_directory,
             orbit=orbit,
             scene=scene,
