@@ -18,8 +18,8 @@ INVALID_COORDINATES = 10
 LAND_FILTER = 11
 DAYTIME_FILTER = 12
 CONUS_FILTER = 13
-ANCILLARY_SERVER_UNREACHABLE = 14
-ANCILLARY_LATENCY = 15
+Auxiliary_SERVER_UNREACHABLE = 14
+Auxiliary_LATENCY = 15
 DOWNLOAD_FAILED = 16
 BLANK_OUTPUT = 17
 PRODUCT_WRITE_FAILED = 18
@@ -69,7 +69,7 @@ class MissingRunConfigValue(ECOSTRESSExitCodeException):
 
 class FilesystemInaccessible(ECOSTRESSExitCodeException):
     """
-    Unable to access directory listed in StaticAncillaryFileGroup
+    Unable to access directory listed in StaticAuxiliaryFileGroup
     """
     exit_code = FILESYSTEM_INACCESSIBLE
 
@@ -116,23 +116,23 @@ class CONUSFilter(ECOSTRESSExitCodeException):
     exit_code = CONUS_FILTER
 
 
-class AncillaryServerUnreachable(ECOSTRESSExitCodeException):
+class AuxiliaryServerUnreachable(ECOSTRESSExitCodeException):
     """
-    This exit code reports that a connection could not be made to one of the remote servers hosting ancillary data. Sometimes these servers are down for maintenance for a few hours at a time.
+    This exit code reports that a connection could not be made to one of the remote servers hosting Auxiliary data. Sometimes these servers are down for maintenance for a few hours at a time.
     """
-    exit_code = ANCILLARY_SERVER_UNREACHABLE
+    exit_code = Auxiliary_SERVER_UNREACHABLE
 
 
-class AncillaryLatency(ECOSTRESSExitCodeException):
+class AuxiliaryLatency(ECOSTRESSExitCodeException):
     """
-    This exit code reports that a required granule from an ancillary data source is not yet available.
+    This exit code reports that a required granule from an Auxiliary data source is not yet available.
     """
-    exit_code = ANCILLARY_LATENCY
+    exit_code = Auxiliary_LATENCY
 
 
 class DownloadFailed(ECOSTRESSExitCodeException):
     """
-    This exit code reports that the file transfer for an ancillary file from the remote server to the local filesystem failed. This can happen intermittently, but if it happens persistently, then the security or API of the remote server may have made a breaking change.
+    This exit code reports that the file transfer for an Auxiliary file from the remote server to the local filesystem failed. This can happen intermittently, but if it happens persistently, then the security or API of the remote server may have made a breaking change.
     """
     exit_code = DOWNLOAD_FAILED
 
