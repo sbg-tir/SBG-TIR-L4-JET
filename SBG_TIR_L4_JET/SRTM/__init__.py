@@ -1,1 +1,0 @@
-from .SRTM import *
