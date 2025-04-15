@@ -50,7 +50,7 @@ def write_L3T_MET(
     water_mask = water_mask.astype(np.uint8)
     cloud_mask = cloud_mask.astype(np.uint8)
 
-    L3T_MET_granule.add_layer("Ta_C", Ta_C, cmap="jet")
+    L3T_MET_granule.add_layer("Ta", Ta_C, cmap="jet")
     L3T_MET_granule.add_layer("RH", RH, cmap=RH_COLORMAP)
     L3T_MET_granule.add_layer("water", water_mask, cmap=WATER_COLORMAP)
     L3T_MET_granule.add_layer("cloud", cloud_mask, cmap=CLOUD_COLORMAP)

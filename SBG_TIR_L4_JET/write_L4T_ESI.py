@@ -55,7 +55,7 @@ def write_L4T_ESI(
     L4T_ESI_granule.add_layer("water", water_mask, cmap=WATER_COLORMAP)
     L4T_ESI_granule.add_layer("cloud", cloud_mask, cmap=CLOUD_COLORMAP)
 
-    percent_good_quality = 100 * (1 - np.count_nonzero(np.isnan(ESI_PTJPLSM)) / ESI_PTJPLSM.size)
+    percent_good_quality = 100 * (1 - np.count_nonzero(np.isnan(ESI)) / ESI.size)
     metadata["ProductMetadata"]["QAPercentGoodQuality"] = percent_good_quality
     metadata["StandardMetadata"]["LocalGranuleID"] = basename(L4T_ESI_zip_filename)
 

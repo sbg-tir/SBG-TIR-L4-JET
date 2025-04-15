@@ -77,6 +77,31 @@ logger = logging.getLogger(__name__)
 class BlankOutputError(Exception):
     pass
 
+def calculate_UTC_offset_hours(geometry: RasterGeometry) -> Raster:
+    return Raster(np.radians(geometry.lon) / np.pi * 12, geometry=geometry)
+
+
+def calculate_day_of_year(time_UTC: datetime, geometry: RasterGeometry) -> Raster:
+    doy_UTC = time_UTC.timetuple().tm_yday
+    hour_UTC = time_UTC.hour + time_UTC.minute / 60 + time_UTC.second / 3600
+    UTC_offset_hours = calculate_UTC_offset_hours(geometry=geometry)
+    hour_of_day = hour_UTC + UTC_offset_hours
+    doy = doy_UTC
+    doy = rt.where(hour_of_day < 0, doy - 1, doy)
+    doy = rt.where(hour_of_day > 24, doy + 1, doy)
+
+    return doy
+
+
+def calculate_hour_of_day(time_UTC: datetime, geometry: RasterGeometry) -> Raster:
+    hour_UTC = time_UTC.hour + time_UTC.minute / 60 + time_UTC.second / 3600
+    UTC_offset_hours = calculate_UTC_offset_hours(geometry=geometry)
+    hour_of_day = hour_UTC + UTC_offset_hours
+    hour_of_day = rt.where(hour_of_day < 0, hour_of_day + 24, hour_of_day)
+    hour_of_day = rt.where(hour_of_day > 24, hour_of_day - 24, hour_of_day)
+
+    return hour_of_day
+
 def L3T_L4T_JET(
         runconfig_filename: str,
         upsampling: str = None,
@@ -792,7 +817,7 @@ def L3T_L4T_JET(
             tile=tile,
             time_UTC=time_UTC,
             build=build,
-            process_count=product_counter,
+            product_counter=product_counter,
             LE_STIC=LE_STIC,
             LE_PTJPLSM=LE_PTJPLSM,
             LE_BESS=LE_BESS,
@@ -818,7 +843,7 @@ def L3T_L4T_JET(
             tile=tile,
             time_UTC=time_UTC,
             build=build,
-            process_count=product_counter,
+            product_counter=product_counter,
             Ta_C=Ta_C,
             RH=RH,
             water_mask=water_mask,
@@ -836,11 +861,9 @@ def L3T_L4T_JET(
             tile=tile,
             time_UTC=time_UTC,
             build=build,
-            process_count=product_counter,
-            Rn_BESS=Rn_BESS,
-            Rn_verma=Rn_verma,
-            Rn_daily=Rn_daily,
-            ETinstUncertainty=ETinstUncertainty,
+            product_counter=product_counter,
+            Rg=SWin,
+            Rn=Rn_BESS,
             water_mask=water_mask,
             cloud_mask=cloud_mask,
             metadata=metadata
@@ -856,7 +879,7 @@ def L3T_L4T_JET(
             tile=tile,
             time_UTC=time_UTC,
             build=build,
-            process_count=product_counter,
+            product_counter=product_counter,
             SM=SM,
             water_mask=water_mask,
             cloud_mask=cloud_mask,
@@ -873,7 +896,7 @@ def L3T_L4T_JET(
             tile=tile,
             time_UTC=time_UTC,
             build=build,
-            process_count=product_counter,
+            product_counter=product_counter,
             ESI=ESI_PTJPLSM,
             PET=PET_PTJPLSM,
             water_mask=water_mask,
@@ -890,7 +913,7 @@ def L3T_L4T_JET(
             tile=tile,
             time_UTC=time_UTC,
             build=build,
-            process_count=product_counter,
+            product_counter=product_counter,
             WUE=WUE,
             GPP=GPP_inst_g_m2_s,
             water_mask=water_mask,

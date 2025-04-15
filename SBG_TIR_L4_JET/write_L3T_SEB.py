@@ -72,7 +72,7 @@ def write_L3T_SEB(
 
     metadata["StandardMetadata"]["ProcessingLevelDescription"] = "Level 3 Tiled Surface Energy Balance"
 
-    L3T_SEB_granule.write_Metadata(metadata)
+    L3T_SEB_granule.write_metadata(metadata)
     logger.info(f"writing L3T SEB product zip: {cl.file(L3T_SEB_zip_filename)}")
     L3T_SEB_granule.write_zip(L3T_SEB_zip_filename)
     logger.info(f"writing L3T SEB browse image: {cl.file(L3T_SEB_browse_filename)}")

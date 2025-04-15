@@ -3,7 +3,7 @@ from os.path import join, dirname, abspath, expanduser
 from shutil import which
 import socket
 from datetime import datetime
-from uuid import uuid4  # Add this import
+from uuid import uuid4
 from ECOv002_granules import L2TLSTE
 
 import logging
