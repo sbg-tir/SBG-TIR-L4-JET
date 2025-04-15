@@ -1,3 +1,3 @@
-from .ECOv003_L3T_L4T_JET import *
+from .SBG_TIR_L4_JET import *
 
 __author__ = "Gregory H. Halverson"
